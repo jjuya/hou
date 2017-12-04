@@ -9,11 +9,13 @@
             <%= list.title %>
           </h3>
           <div class="slimscroll" data-always-visible="true" data-size="5px" data-position="right" data-opacity="0.4" disable-body-scroll="true">
-            <div class="clearfix margin-bottom-10"><!-- post item -->
-              <img class="thumbnail pull-left" src="<%= asset_path 'noimg.jpg' %>" width="60" height="60" alt="" />
-              <h4 class="size-13 nomargin noborder nopadding"><a href="blog-single-default.html">Nullam Vitae Nibh Un Odiosters</a></h4>
-              <span class="size-11 text-muted">June 29, 2017</span>
-            </div><!-- /post item -->
+            <% list.bookmarks.each do |bookmark| %>
+              <div class="clearfix margin-bottom-10"><!-- post item -->
+                <img class="thumbnail pull-left" src="<%= asset_path 'noimg.jpg' %>" width="60" height="60" alt="" />
+                <h4 class="size-13 nomargin noborder nopadding"><a href="blog-single-default.html"><%= bookmark.title %></a></h4>
+                <span class="size-11 text-muted"><%= bookmark.created_at.to_s %></span>
+              </div><!-- /post item -->
+            <% end %>
           </div>
         </div>
       </div>
