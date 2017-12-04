@@ -1,2 +1,22 @@
 <h1>Boards#show</h1>
-<p>Find me in app/views/boards/show.html.erb</p>
+
+<div class="box-light">
+  <div class="row">
+    <% @lists.each do |list| %>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="box-inner">
+          <h3>
+            <%= list.title %>
+          </h3>
+          <div class="slimscroll" data-always-visible="true" data-size="5px" data-position="right" data-opacity="0.4" disable-body-scroll="true">
+            <div class="clearfix margin-bottom-10"><!-- post item -->
+              <img class="thumbnail pull-left" src="<%= asset_path 'noimg.jpg' %>" width="60" height="60" alt="" />
+              <h4 class="size-13 nomargin noborder nopadding"><a href="blog-single-default.html">Nullam Vitae Nibh Un Odiosters</a></h4>
+              <span class="size-11 text-muted">June 29, 2017</span>
+            </div><!-- /post item -->
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
