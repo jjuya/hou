@@ -1,19 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'bookmarks/index'
-
-  get 'bookmarks/show'
-
-  get 'bookmarks/new'
-
-  get 'bookmarks/create'
-
-  get 'bookmarks/edit'
-
-  get 'bookmarks/update'
-
-  get 'bookmarks/destroy'
-
   devise_for :users
   root 'home#index'
 
