@@ -29,7 +29,7 @@ end
 10.times do |i|
   List.create(
     title: Faker::LeagueOfLegends.rank,
-    board_id: (1..5).to_a.sample(1)
+    board_id: (1..5).to_a.sample()
   )
 end
 
@@ -38,6 +38,6 @@ end
     title: Faker::LeagueOfLegends.masteries,
     url: Faker::LeagueOfLegends.location,
     description: Faker::LeagueOfLegends.quote,
-    list_id: (1..15).to_a.sample(1)
+    list_id: (1..15).to_a.sample()
   )
 end
