@@ -11,13 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171204065234) do
+ActiveRecord::Schema.define(version: 20171204085805) do
 
   create_table "boards", force: :cascade do |t|
     t.string   "title"
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.string   "title"
+    t.string   "url"
+    t.text     "description"
+    t.string   "tag_1"
+    t.string   "tag_2"
+    t.string   "tag_3"
+    t.integer  "list_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "lists", force: :cascade do |t|

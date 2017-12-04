@@ -25,3 +25,19 @@ end
     board_id: i
   )
 end
+
+10.times do |i|
+  List.create(
+    title: Faker::LeagueOfLegends.rank,
+    board_id: (1..5).to_a.sample(1)
+  )
+end
+
+20.times do |i|
+  Bookmark.create(
+    title: Faker::LeagueOfLegends.masteries,
+    url: Faker::LeagueOfLegends.location,
+    description: Faker::LeagueOfLegends.quote,
+    list_id: (1..15).to_a.sample(1)
+  )
+end
