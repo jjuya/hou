@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+gem 'faker'
+gem 'devise'
+gem 'kaminari'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.9'
@@ -43,4 +46,10 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'rails_db'
+  gem 'awesome_print'
+  gem 'pry-rails'
+  gem 'better_errors'
+
 end
