@@ -1,0 +1,99 @@
+<div class="container">
+  <div class="col-md-9 col-sm-9">
+		<h3>Create Bookmark</h3>
+
+
+		<!--
+			MESSAGES
+
+				How it works?
+				The form data is posted to php/contact.php where the fields are verified!
+				php.contact.php will redirect back here and will add a hash to the end of the URL:
+					#alert_success 		= email sent
+					#alert_failed		= email not sent - internal server error (404 error or SMTP problem)
+					#alert_mandatory	= email not sent - required fields empty
+					Hashes are handled by assets/js/contact.js
+
+				Form data: required to be an array. Example:
+					contact[email][required]  WHERE: [email] = field name, [required] = only if this field is required (PHP will check this)
+					Also, add `required` to input fields if is a mandatory field.
+					Example: <input required type="email" value="" class="form-control" name="contact[email][required]">
+
+				PLEASE NOTE: IF YOU WANT TO ADD OR REMOVE FIELDS (EXCEPT CAPTCHA), JUST EDIT THE HTML CODE, NO NEED TO EDIT php/contact.php or javascript
+							 ALL FIELDS ARE DETECTED DINAMICALY BY THE PHP
+
+				WARNING! Do not change the `email` and `name`!
+							contact[name][required] 	- should stay as it is because PHP is using it for AddReplyTo (phpmailer)
+							contact[email][required] 	- should stay as it is because PHP is using it for AddReplyTo (phpmailer)
+		-->
+
+		<!-- Alert Success -->
+		<div id="alert_success" class="alert alert-success margin-bottom-30">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<strong>Thank You!</strong> 성공적으로 등록되었습니다.
+		</div><!-- /Alert Success -->
+
+
+		<!-- Alert Failed -->
+		<div id="alert_failed" class="alert alert-danger margin-bottom-30">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<strong>Error!</strong> Internal server error!
+		</div><!-- /Alert Failed -->
+
+
+		<!-- Alert Mandatory -->
+		<div id="alert_mandatory" class="alert alert-danger margin-bottom-30">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<strong>Sorry!</strong> You need to complete all mandatory (*) fields!
+		</div><!-- /Alert Mandatory -->
+
+
+    <%= form_for(@bookmark) do |f| %>
+      <div class="row">
+        <div class="col-md-12">
+          <%= f.label :title, "Bookmark Title" %>
+          <%= f.text_field :title, class: "form-control", placeholder: "Bookmark 이름을 입력해 주세요" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <%= f.label :url, "Bookmark Url" %>
+          <%= f.text_field :url, class: "form-control", placeholder: "URL을 입력해 주세요" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <%= f.label :list_id, "List" %>
+          <%= f.select(:list_id, options_for_select(@lists.map {|l| [l.title, l.id]}), {}, {class: "form-control pointer"}) %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12">
+          <%= f.label :tag, "Tag" %>
+        </div>
+        <div class="col-md-4 col-sm-4">
+          <%= f.text_field :tag_1, class: "form-control", placeholder: "tag_1" %>
+        </div>
+
+        <div class="col-md-4 col-sm-4">
+          <%= f.text_field :tag_2, class: "form-control", placeholder: "tag_2" %>
+        </div>
+
+        <div class="col-md-4 col-sm-4">
+          <%= f.text_field :tag_3, class: "form-control", placeholder: "tag_3" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> SUBMIT</button>
+				</div>
+      </div>
+    <% end %>
+
+	</div>
+
+</div>
