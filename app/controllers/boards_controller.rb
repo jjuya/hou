@@ -1,34 +1,64 @@
 class BoardsController < ApplicationController
+
   before_action :set_board, only: [:show, :edit, :update, :destroy]
+  # before_action :user_check, only: [:show, :edit, :update, :destroy]
 
   def index
+    
   end
 
   def show
+    @bookmarks = @board.bookmarks
     @lists = @board.lists
   end
 
   def new
+    @board = Board.new
   end
 
   def create
+    board = Board.create(board_params)
+
+    List.create(
+      title: "No title",
+      board_id: board.id
+    )
+
+    redirect_to
   end
 
   def edit
   end
 
   def update
+    @board.update(board_params)
+    # respond_to do |format|
+    #   format.html { redirect_to "root" }
+    #   format.js
+    # end
+    # redirect_to :root
   end
 
   def destroy
+    @board.destroy
+    redirect_to boards_path
   end
 
   private
   def set_board
     @board = Board.find(params[:id])
+
+    user_check
   end
 
   def board_params
-  	params.require(:board).permit(:title, :user_id)
+    params.require(:board).permit(:title, :user_id)
   end
+
+  def user_check
+    if current_user.id != @board.user_id
+      redirect_to :root
+    end
+  end
+
 end
