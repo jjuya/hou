@@ -4,4 +4,15 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   protect_from_forgery with: :exception
+
+  before_action :set_boards
+
+  def set_boards
+  	if current_user
+  		@boards = current_user.boards
+  	elsif
+  		redirect_to new_user_session_path
+  	end
+  	
+  end
 end

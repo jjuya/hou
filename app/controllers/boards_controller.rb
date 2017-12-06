@@ -8,7 +8,6 @@ class BoardsController < ApplicationController
   end
 
   def show
-    @bookmarks = @board.bookmarks
     @lists = @board.lists
   end
 
@@ -32,11 +31,11 @@ class BoardsController < ApplicationController
 
   def update
     @board.update(board_params)
-    # respond_to do |format|
-    #   format.html { redirect_to "root" }
-    #   format.js
-    # end
-    # redirect_to :root
+
+    respond_to do |format|
+      format.html { redirect_to "root" }
+      format.js
+    end
   end
 
   def destroy

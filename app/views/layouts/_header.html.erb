@@ -1,116 +1,104 @@
-<div id="header" class="sticky header-sm header-light header-shadow-1">
-
+<div id="header" class="clearfix sticky header-sm header-light header-shadow-1">
 	<header id="topNav">
-		<div class="container">
+		<!-- Mobile Menu Button -->
+		<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+			<i class="fa fa-bars"></i>
+		</button>
 
-			<!-- Mobile Menu Button -->
-			<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
-				<i class="fa fa-bars"></i>
-			</button>
+		<!-- BUTTONS -->
+		<ul class="pull-right nav nav-pills nav-second-main">
 
-			<!-- BUTTONS -->
-			<ul class="pull-right nav nav-pills nav-second-main">
+			<!-- SEARCH -->
+			<li class="search">
+				<a href="javascript:;">
+					<i class="fa fa-search"></i>
+				</a>
+				<div class="search-box">
+					<form action="page-search-result-1.html" method="get">
+						<div class="input-group">
+							<input type="text" name="src" placeholder="Search" class="form-control">
+							<span class="input-group-btn">
+								<button class="btn btn-primary" type="submit">Search</button>
+							</span>
+						</div>
+					</form>
+				</div> 
+			</li>
+			<!-- /SEARCH -->
 
-				<!-- SEARCH -->
-				<li class="search">
-					<a href="javascript:;">
-						<i class="fa fa-search"></i>
-					</a>
-					<div class="search-box">
-						<form action="page-search-result-1.html" method="get">
-							<div class="input-group">
-								<input type="text" name="src" placeholder="Search" class="form-control">
-								<span class="input-group-btn">
-									<button class="btn btn-primary" type="submit">Search</button>
-								</span>
-							</div>
-						</form>
-					</div> 
-				</li>
-				<!-- /SEARCH -->
-
-				<!-- User -->
-				<li class="quick-cart">
-					<a href="#">
-						<i class="fa fa-user"></i> 
-					</a>
-					<div class="quick-cart-box">
+			<!-- User -->
+			<li class="quick-cart">
+				<a href="#">
+					<i class="fa fa-user"></i> 
+				</a>
+				<div class="quick-cart-box">
+					<% if user_signed_in? %>
+						<%= render 'layouts/sign_out' %>
+					<% elsif%>
 						<%= render 'layouts/sign_in' %>
-					</div>
-				</li>
-				<!-- /User -->
+					<% end %>
+				</div>
+			</li>
+			<!-- /User -->
 
-			</ul>
-			<!-- /BUTTONS -->
+		</ul>
+		<!-- /BUTTONS -->
 
 
-			<!-- Logo -->
-			<a class="logo pull-left" href="index.html">
-				<img src="assets/images/_smarty/logo_dark.png" alt="">
-			</a>
+		<!-- Logo -->
+		<a class="logo pull-center" href="index.html">
+			<!-- <img src="assets/images/_smarty/logo_dark.png" alt=""> -->
+		</a>
 
-			<!-- 
-				Top Nav 
-				
-				AVAILABLE CLASSES:
-				submenu-dark = dark sub menu
-			-->
-			<div class="navbar-collapse pull-right nav-main-collapse collapse">
-				<nav class="nav-main">
+		<!-- 
+			Top Nav 
+			
+			AVAILABLE CLASSES:
+			submenu-dark = dark sub menu
+		-->
+		<div class="navbar-collapse pull-left nav-main-collapse collapse">
+			<nav class="nav-main">
 
-					<!--
-						NOTE
-						
-						For a regular link, remove "dropdown" class from LI tag and "dropdown-toggle" class from the href.
-						Direct Link Example: 
+				<!--
+					NOTE
+					
+					For a regular link, remove "dropdown" class from LI tag and "dropdown-toggle" class from the href.
+					Direct Link Example: 
 
-						<li>
-							<a href="#">HOME</a>
-						</li>
-					-->
-					<ul id="topMain" class="nav nav-pills nav-main">
-						<li class="dropdown"><!-- HOME -->
-							<a class="dropdown-toggle" href="<%= root_path %>">
-								<span class="theme-color">HOME</span>
-							</a>
-							<ul class="dropdown-menu">
+					<li>
+						<a href="#">HOME</a>
+					</li>
+				-->
+				<ul id="topMain" class="nav nav-pills nav-main has-topBar">
+					<li class="dropdown">
+						<a class="dropdown-toggle">
+							Boards
+						</a>
+						<ul class="dropdown-menu has-topBar">
+							<% @boards.each do |board| %>
 								<li class="dropdown">
-									<a class="dropdown-toggle" href="#">
-										HOME CORPORATE
-									</a>
-									<ul class="dropdown-menu">
-										<li><a href="index-corporate-1.html">CORPORATE LAYOUT 1</a></li>
-										<li><a href="index-corporate-2.html">CORPORATE LAYOUT 2</a></li>
-										<li><a href="index-corporate-3.html">CORPORATE LAYOUT 3</a></li>
-										<li><a href="index-corporate-4.html">CORPORATE LAYOUT 4</a></li>
-										<li><a href="index-corporate-5.html">CORPORATE LAYOUT 5</a></li>
-										<li><a href="index-corporate-6.html">CORPORATE LAYOUT 6</a></li>
-										<li><a href="index-corporate-7.html">CORPORATE LAYOUT 7</a></li>
-									</ul>
+									<%= link_to board.title, board_path(board) %>
 								</li>
-							</ul>
-						</li>
+							<% end %>
+						</ul>
+					</li>
+				</ul>
+					<!-- 
+						MENU ANIMATIONS
+							.nav-animate-fadeIn
+							.nav-animate-fadeInUp
+							.nav-animate-bounceIn
+							.nav-animate-bounceInUp
+							.nav-animate-flipInX
+							.nav-animate-flipInY
+							.nav-animate-zoomIn
+							.nav-animate-slideInUp
 
-						<!-- 
-							MENU ANIMATIONS
-								.nav-animate-fadeIn
-								.nav-animate-fadeInUp
-								.nav-animate-bounceIn
-								.nav-animate-bounceInUp
-								.nav-animate-flipInX
-								.nav-animate-flipInY
-								.nav-animate-zoomIn
-								.nav-animate-slideInUp
+							.nav-hover-animate 		= animate text on hover
 
-								.nav-hover-animate 		= animate text on hover
-
-								.hover-animate-bounceIn = bounceIn effect on mouse over of main menu
-						-->
-					</ul>
-
-				</nav>
-			</div>
-
+							.hover-animate-bounceIn = bounceIn effect on mouse over of main menu
+					-->
+			</nav>
 		</div>
 	</header>
 </div>

@@ -7124,6 +7124,7 @@ section.dark .box-static .box-title {
 .box-light {
 	padding:15px;
 	background-color:rgba(0,0,0,0.05);
+	height: 100%
 }
 .box-dark {
 	color:#fff;

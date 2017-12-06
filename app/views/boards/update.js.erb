@@ -1,0 +1,9 @@
+var boardTitle = $('#board_title_div');
+var editBoardForm = $('#edit_board_' + <%= @board.id %>);
+
+$('#board_title').text("<%= @board.title %>");
+
+console.log(222);
+
+boardTitle.show();
+editBoardForm.hide();

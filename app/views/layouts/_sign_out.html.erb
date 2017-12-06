@@ -1,18 +1,14 @@
-<div class="quick-cart-box">
-	<h4><%= 유저 이름이 뜰거에요 %></h4>
+<h4><i class="fa fa-user"></i> <%= current_user.email %></h4>
 
-	<div class="quick-cart-wrapper">
-
-		<div class="pl-15 pr-15 pt-15 pb-15">
-			<h4 class="size-13 weight-400 mb-10">Welcome to HOU!</h4>
-			<a href="#" class="btn btn-primary btn-sm btn-block weight-300">LOG IN</a>
-		</div>
+<div class="quick-cart-wrapper">
+	<div class="pl-15 pr-15 pt-15 pb-15">
+		아아아아앙
 	</div>
-
-	<!-- quick cart footer -->
-	<div class="quick-cart-footer clearfix">
-		<a href="shop-cart.html" class="btn btn-danger btn-xs pull-right">VIEW CART</a>
-		<span class="pull-left"><strong>TOTAL:</strong> $54.39</span>
-	</div>
-	<!-- /quick cart footer -->
 </div>
+
+<!-- quick cart footer -->
+<div class="quick-cart-footer clearfix">
+	<%= link_to 'LOG OUT', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs pull-right" %>
+	<span class="pull-left"><%= current_user.boards.length%> <strong> BOARDS</strong></span>
+</div>
+<!-- /quick cart footer -->
