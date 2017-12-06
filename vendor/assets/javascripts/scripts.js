@@ -1792,8 +1792,7 @@
 
 		jQuery("div.toggle.active > p").addClass("preview-active");
 		jQuery("div.toggle.active > div.toggle-content").slideDown(400);
-		jQuery("div.toggle > label").click(function(e) {
-
+		jQuery(document).on('click', "div.toggle > label", function(e) {
 			var parentSection 	= jQuery(this).parent(),
 				parentWrapper 	= jQuery(this).parents("div.toggle"),
 				previewPar 		= false,
@@ -1818,12 +1817,10 @@
 			var toggleContent = parentSection.find("> div.toggle-content");
 
 			if(parentSection.hasClass("active")) {
-
 				jQuery(previewPar).animate({height: previewParAnimateHeight}, 350, function() {jQuery(this).addClass("preview-active");});
 				toggleContent.slideDown(350);
 
 			} else {
-
 				jQuery(previewPar).animate({height: previewParClosedHeight}, 350, function() {jQuery(this).removeClass("preview-active");});
 				toggleContent.slideUp(350);
 
