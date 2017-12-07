@@ -20,3 +20,9 @@
 @import "layout";
 @import "header-1";
 @import "color_scheme/orange";
+
+.board_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
