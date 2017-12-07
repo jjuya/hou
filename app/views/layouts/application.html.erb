@@ -9,11 +9,13 @@
   <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
 
 </head>
-<body>
+<body class="smoothscroll enable-animation">
 
-  <%= render "/layouts/header"%>
+  <div id="wrapper">
+    <%= render "/layouts/header"%>
 
-<%= yield %>
+    <%= yield %>
+  </div>
 
 </body>
 </html>

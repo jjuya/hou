@@ -10,9 +10,6 @@ class ApplicationController < ActionController::Base
   def set_boards
   	if current_user
   		@boards = current_user.boards
-  	elsif
-  		redirect_to new_user_session_path
   	end
-  	
   end
 end

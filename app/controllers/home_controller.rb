@@ -1,11 +1,10 @@
 class HomeController < ApplicationController
 	before_action :set_board, only: [:show, :edit, :update, :destroy]
-	
-	def index
-		@boards = User.find(current_user.id).boards
-  	end
 
-  	private
+	def index
+	end
+
+	private
 	def set_board
 		@board = Board.find(params[:id])
 

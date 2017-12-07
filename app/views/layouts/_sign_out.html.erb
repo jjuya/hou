@@ -8,7 +8,7 @@
 
 <!-- quick cart footer -->
 <div class="quick-cart-footer clearfix">
-	<%= link_to 'LOG OUT', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs pull-right" %>
+	<%= link_to 'Sign_out', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs pull-right" %>
 	<span class="pull-left"><%= current_user.boards.length%> <strong> BOARDS</strong></span>
 </div>
 <!-- /quick cart footer -->

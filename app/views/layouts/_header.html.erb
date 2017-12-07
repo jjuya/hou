@@ -1,104 +1,123 @@
-<div id="header" class="clearfix sticky header-sm header-light header-shadow-1">
+
+<div id="header" class="static header-sm clearfix">
+	<!-- TOP NAV -->
 	<header id="topNav">
-		<!-- Mobile Menu Button -->
-		<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
-			<i class="fa fa-bars"></i>
-		</button>
+		<div class="container">
 
-		<!-- BUTTONS -->
-		<ul class="pull-right nav nav-pills nav-second-main">
+			<!-- Mobile Menu Button -->
+			<button class="btn btn-mobile" data-toggle="collapse" data-target=".nav-main-collapse">
+				<i class="fa fa-bars"></i>
+			</button>
 
-			<!-- SEARCH -->
-			<li class="search">
-				<a href="javascript:;">
-					<i class="fa fa-search"></i>
-				</a>
-				<div class="search-box">
-					<form action="page-search-result-1.html" method="get">
-						<div class="input-group">
-							<input type="text" name="src" placeholder="Search" class="form-control">
-							<span class="input-group-btn">
-								<button class="btn btn-primary" type="submit">Search</button>
-							</span>
-						</div>
-					</form>
-				</div> 
-			</li>
-			<!-- /SEARCH -->
+			<!-- BUTTONS -->
+			<ul class="pull-right nav nav-pills nav-second-main">
 
-			<!-- User -->
-			<li class="quick-cart">
-				<a href="#">
-					<i class="fa fa-user"></i> 
-				</a>
-				<div class="quick-cart-box">
-					<% if user_signed_in? %>
-						<%= render 'layouts/sign_out' %>
-					<% elsif%>
-						<%= render 'layouts/sign_in' %>
-					<% end %>
-				</div>
-			</li>
-			<!-- /User -->
+				<!-- SEARCH -->
+				<li class="search">
+					<a href="javascript:;">
+						<i class="fa fa-search"></i>
+					</a>
+					<div class="search-box">
+						<form action="page-search-result-1.html" method="get">
+							<div class="input-group">
+								<input type="text" name="src" placeholder="Search" class="form-control">
+								<span class="input-group-btn">
+									<button class="btn btn-primary" type="submit">Search</button>
+								</span>
+							</div>
+						</form>
+					</div>
+				</li>
+				<!-- /SEARCH -->
 
-		</ul>
-		<!-- /BUTTONS -->
+				<!-- QUICK SHOP CART -->
+				<li class="quick-cart">
+					<a href="#">
+						<i class="fa fa-user"></i>
+					</a>
+					<div class="quick-cart-box">
+						<% if current_user %>
+							<h4><i class="fa fa-user"></i> <%= current_user.email %></h4>
 
+							<div class="quick-cart-wrapper">
+								<div class="pl-15 pr-15 pt-15 pb-15">
+									아아아아앙
+								</div>
+							</div>
 
-		<!-- Logo -->
-		<a class="logo pull-center" href="index.html">
-			<!-- <img src="assets/images/_smarty/logo_dark.png" alt=""> -->
-		</a>
+							<!-- quick cart footer -->
+							<div class="quick-cart-footer clearfix">
+								<%= link_to 'Sign_out', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs pull-right" %>
+								<span class="pull-left"><%= current_user.boards.length%> <strong> BOARDS</strong></span>
+							</div>
+						<% elsif%>
+							로그인 해줘
+						<% end %>
+					</div>
+				</li>
+				<!-- /QUICK SHOP CART -->
 
-		<!-- 
-			Top Nav 
-			
-			AVAILABLE CLASSES:
-			submenu-dark = dark sub menu
-		-->
-		<div class="navbar-collapse pull-left nav-main-collapse collapse">
-			<nav class="nav-main">
+			</ul>
+			<!-- /BUTTONS -->
 
-				<!--
-					NOTE
-					
-					For a regular link, remove "dropdown" class from LI tag and "dropdown-toggle" class from the href.
-					Direct Link Example: 
+			<!-- Logo -->
+			<a class="logo pull-center" href="index.html">
+				<img src="assets/images/_smarty/logo_dark.png" alt="">
+			</a>
 
-					<li>
-						<a href="#">HOME</a>
-					</li>
-				-->
-				<ul id="topMain" class="nav nav-pills nav-main has-topBar">
-					<li class="dropdown">
-						<a class="dropdown-toggle">
-							Boards
-						</a>
-						<ul class="dropdown-menu has-topBar">
-							<% @boards.each do |board| %>
-								<li class="dropdown">
-									<%= link_to board.title, board_path(board) %>
-								</li>
-							<% end %>
-						</ul>
-					</li>
-				</ul>
-					<!-- 
-						MENU ANIMATIONS
-							.nav-animate-fadeIn
-							.nav-animate-fadeInUp
-							.nav-animate-bounceIn
-							.nav-animate-bounceInUp
-							.nav-animate-flipInX
-							.nav-animate-flipInY
-							.nav-animate-zoomIn
-							.nav-animate-slideInUp
+			<!--
+				Top Nav
 
-							.nav-hover-animate 		= animate text on hover
+				AVAILABLE CLASSES:
+				submenu-dark = dark sub menu
+			-->
+			<div class="navbar-collapse pull-left nav-main-collapse collapse">
+				<nav class="nav-main">
 
-							.hover-animate-bounceIn = bounceIn effect on mouse over of main menu
+					<!--
+						NOTE
+
+						For a regular link, remove "dropdown" class from LI tag and "dropdown-toggle" class from the href.
+						Direct Link Example:
+
+						<li>
+							<a href="#">HOME</a>
+						</li>
 					-->
-			</nav>
+					<ul id="topMain" class="nav nav-pills nav-main">
+						<li class="dropdown">
+							<a class="dropdown-toggle" href="#">
+								Boards
+							</a>
+							<ul class="dropdown-menu">
+								<% @boards.each do |board| %>
+									<li><%= link_to board.title, board_path(board) %></li>
+								<% end %>
+							</ul>
+
+
+						<!--
+							MENU ANIMATIONS
+								.nav-animate-fadeIn
+								.nav-animate-fadeInUp
+								.nav-animate-bounceIn
+								.nav-animate-bounceInUp
+								.nav-animate-flipInX
+								.nav-animate-flipInY
+								.nav-animate-zoomIn
+								.nav-animate-slideInUp
+
+								.nav-hover-animate 		= animate text on hover
+
+								.hover-animate-bounceIn = bounceIn effect on mouse over of main menu
+						-->
+					</ul>
+
+				</nav>
+			</div>
+
 		</div>
 	</header>
+	<!-- /Top Nav -->
+
 </div>
