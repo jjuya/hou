@@ -1,0 +1,18 @@
+var createButton = $('#create_button');
+var newBoardForm = $('#new_board');
+
+console.log(222);
+
+var new_board = "";
+
+new_board += "<div class='col-lg-3 col-md-4 col-sm-6'>";
+new_board += "  <div class='thumbnail'>";
+new_board += "    <div class='caption'>";
+new_board += "      <h4 class='nomargin board_title'> <%= link_to @board.title, board_path(@board) %> </h4>";
+new_board += "      <small class='margin-bottom-20 block'> <%= @board.created_at.to_s(:short) %> </small>";
+new_board += "</div> </div> </div>";
+
+$('#basic_boards').append(new_board);
+
+createButton.show();
+newBoardForm.hide();

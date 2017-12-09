@@ -4,7 +4,7 @@ class BoardsController < ApplicationController
   # before_action :user_check, only: [:show, :edit, :update, :destroy]
 
   def index
-    
+    @board = Board.new
   end
 
   def show
@@ -16,14 +16,17 @@ class BoardsController < ApplicationController
   end
 
   def create
-    board = Board.create(board_params)
+    @board = Board.create(board_params)
 
     List.create(
       title: "No title",
-      board_id: board.id
+      board_id: @board.id
     )
 
-    redirect_to
+    respond_to do |format|
+      format.html { redirect_to "root" }
+      format.js
+    end
   end
 
   def edit
@@ -40,7 +43,7 @@ class BoardsController < ApplicationController
 
   def destroy
     @board.destroy
-    redirect_to boards_path
+    redirect_to root_path
   end
 
   private

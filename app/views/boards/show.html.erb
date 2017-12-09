@@ -29,9 +29,20 @@
       <% @lists.each do |list| %>
         <div class="col-lg-3 col-md-6 col-sm-6 pt-15 pb-15">
           <div class="box-inner">
-            <h3>
+            <h3 id="list_title">
               <%= list.title %>
             </h3>
+
+            <%= form_for list, html: {class: "form-group"}, remote: true do |f| %>
+              <div class="row">
+                <div class="col-lg-9 col-mg-9 col-sm-12 pl-15 pr-15">
+                  <%= f.text_field :title, id: "editListTitle", class: "form-control", value: list.title %>
+                </div>
+                <div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
+                  <%= f.submit "수정", class: "btn btn-primary"%>
+                </div>
+              </div>
+            <% end %>
 
             <div class="slimscroll" data-always-visible="true" data-size="5px" data-position="right" data-opacity="0.4" disable-body-scroll="true">
               <% list.bookmarks.each do |bookmark| %>

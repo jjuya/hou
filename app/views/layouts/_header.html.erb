@@ -41,17 +41,15 @@
 
 							<div class="quick-cart-wrapper">
 								<div class="pl-15 pr-15 pt-15 pb-15">
-									아아아아앙
+									로그아웃 할건데엥에ㅔ에ㅔ엥
 								</div>
 							</div>
 
 							<!-- quick cart footer -->
 							<div class="quick-cart-footer clearfix">
-								<%= link_to 'Sign_out', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs pull-right" %>
+								<%= link_to '로그아웃', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs pull-right" %>
 								<span class="pull-left"><%= current_user.boards.length%> <strong> BOARDS</strong></span>
 							</div>
-						<% elsif%>
-							로그인 해줘
 						<% end %>
 					</div>
 				</li>
@@ -84,17 +82,18 @@
 							<a href="#">HOME</a>
 						</li>
 					-->
+
 					<ul id="topMain" class="nav nav-pills nav-main">
 						<li class="dropdown">
 							<a class="dropdown-toggle">
 								Boards
 							</a>
 							<ul class="dropdown-menu">
-								<% @boards.each do |board| %>
-									<li><%= link_to board.title, board_path(board) %></li>
-								<% end %>
+									<% @boards.each do |board| %>
+										<li><%= link_to board.title, board_path(board) %></li>
+									<% end %>
 							</ul>
-
+						</ul>
 
 						<!--
 							MENU ANIMATIONS
@@ -111,7 +110,7 @@
 
 								.hover-animate-bounceIn = bounceIn effect on mouse over of main menu
 						-->
-					</ul>
+
 
 				</nav>
 			</div>

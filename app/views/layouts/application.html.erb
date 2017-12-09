@@ -12,8 +12,10 @@
 <body class="smoothscroll enable-animation">
 
   <div id="wrapper">
-    <%= render "/layouts/header"%>
-
+    <% if user_signed_in? %>
+      <%= render "/layouts/header"%>
+    <% end %>
+    
     <%= yield %>
   </div>
 
