@@ -9,6 +9,7 @@ class BoardsController < ApplicationController
 
   def show
     @lists = @board.lists
+    @bookmark = Bookmark.new()
   end
 
   def new

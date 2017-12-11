@@ -1,95 +1,131 @@
 <section class="page-header page-header-xs">
   <div id="board_title_div" class="pl-15 pr-15">
     <div class="row">
-      <div class="col-lg-9 col-mg-6 col-sm-9 pl-15 pr-15">
-          <h4 id="board_title"> <%= @board.title %> </h4>
+      <div class="col-lg-10 col-mg-8 col-sm-6 col-xs-6">
+        <h4 id="board_title">
+          <%= @board.title %>
+        </h4>
       </div>
 
-      <div class="col-lg-3 col-mg-6 col-sm-3 pl-15 pr-15 text-right">
-        <%= link_to "리스트 만들기", new_lists_path(@board), class: "btn btn-primary" %>
-        <%= link_to "북마크 만들기", new_bookmarks_path(@board), class: "btn btn-primary" %>
+      <div class="col-lg-1 col-mg-2 col-sm-3 col-xs-3">
+        <button id="active_new_list_form" class="btn btn-info btn-block">List <i class='fa fa-plus'></i></button>
+        <button id="deactive_new_list_form" class="btn btn-info btn-block">Form <i class='fa fa-minus'></i></button>
+      </div>
+
+      <div class="col-lg-1 col-mg-2 col-sm-3 col-xs-3">
+        <button id="active_new_bookmark_form" class="btn btn-info btn-block" data-toggle="modal" data-target="#newBookmarkModal">Bookmark <i class='fa fa-plus'></i></button>
       </div>
     </div>
   </div>
 
-  <%= form_for @board, html: {class: "pl-15 pr-15"}, remote: true do |f| %>
-    <div class="row">
-      <div class="col-lg-6 col-mg-6 col-sm-12 pl-15 pr-15">
-        <%= f.text_field :title, id: "editBoardTitle", class: "form-control", value: @board.title %>
-      </div>
-      <div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
-        <%= f.submit "수정", class: "btn btn-primary"%>
-      </div>
+  <!-- board title edit form -->
+  <%= form_for @board, html: {class: "row pl-15 pr-15"}, remote: true do |f| %>
+    <div class="col-lg-5 col-mg-5 col-sm-10 col-xs-12">
+      <%= f.text_field :title, id: "editBoardTitle", class: "form-control", value: @board.title %>
+    </div>
+    <div class="col-lg-1 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
+      <%= f.submit "수정", class: "btn btn-primary btn-block"%>
     </div>
   <% end %>
+
+  <!-- list create form -->
+  <form id="new_list" class="row pl-15 pr-15">
+    <div class="col-lg-5 col-mg-5 col-sm-10 col-xs-12">
+      <input type="text" id="new_list_title" class="form-control" placeholder="List 이름을 입력해 주세요"/>
+      <input type="hidden" id="board_id"  value="<%= @board.id %>"/>
+    </div>
+
+    <div class="col-lg-1 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
+      <input type="submit" id="create_button" class="btn btn-primary btn-block" value="만들기"/>
+    </div>
+  </form>
 </section>
 
-  <div class="box-light">
-    <div class="row">
-      <% @lists.each do |list| %>
-        <div class="col-lg-3 col-md-6 col-sm-6 pt-15 pb-15">
-          <div class="box-inner">
-            <h3 id="list_<%= list.id %>" class="list_title">
-              <%= list.title %>
-            </h3>
+<!-- create bookmark-->
+<%= render partial: "bookmarks/new", locals: { lists: @lists, bookmark: @bookmark } %>
 
-            <%= form_for list, html: {class: "form-group edit_list_form"}, remote: true do |f| %>
-              <div class="row">
-                <div class="col-lg-9 col-mg-9 col-sm-12 pl-15 pr-15">
-                  <%= f.text_field :title, id: "editListTitle", class: "form-control", value: list.title %>
-                </div>
-                <div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
-                  <%= f.submit "수정", class: "btn btn-info"%>
-                </div>
-              </div>
-            <% end %>
+<!-- show lists & bookmarks-->
+<div id="board_show">
+  <% @lists.each do |list| %>
+    <div class="bookmark_list">
+      <h3 id="list_<%= list.id %>" class="list_title">
+        <%= list.title %>
+      </h3>
 
-            <div class="slimscroll" data-always-visible="true" data-size="5px" data-position="right" data-opacity="0.4" disable-body-scroll="true">
-              <% list.bookmarks.each do |bookmark| %>
-
-                <div id="bookmark_<%= bookmark.id %>" class="toggle toggle-transparent toggle-bordered-simple">
-                  <div class="toggle mix design mix_all" style="display: block;  opacity: 1;"><!-- toggle -->
-                    <label class="size-13 nomargin noborder nopadding"><%= bookmark.title %></label>
-                    <span class="size-11 text-muted"><%= bookmark.created_at.to_s %></span>
-
-                    <div class="toggle-content" style="display: none;">
-                      <h5><i class="fa fa-bookmark"></i> URL </h5>
-                      <p><%= bookmark.url %></p>
-
-                      <h5><i class="fa fa-comment"></i> Description </h5>
-                      <p><%= bookmark.description %></p>
-
-                      <h5><i class="fa fa-tags"></i> Tags</h5>
-
-                      <ul class="list-unstyled list-icons">
-                        <li><i class="fa fa-check"></i> <%= bookmark.tag_1 %> </li>
-                        <li><i class="fa fa-check"></i> <%= bookmark.tag_2 %> </li>
-                        <li><i class="fa fa-check"></i> <%= bookmark.tag_3 %> </li>
-                      </ul>
-
-                      <div class="text-right">
-                        <ul class="list-inline categories nomargin text-muted size-11 hidden-xs">
-                          <li><%= link_to "EDIT", edit_bookmark_path(bookmark), class: "text-info" %></li>
-                          <li><button class="text-danger" data-confirm="<%= bookmark.title%>을 삭제합니다.">DELETE</button></li>
-                          <!-- <li><%#= link_to "DELETE", bookmark_path(bookmark), method: :delete, remote: true, class: "text-danger", data: {confirm: "#{bookmark.title}을 삭제합니다."} %></li> -->
-                        </ul>
-                      </div>
-                    </div>
-                  </div><!-- /toggle -->
-
-                </div>
-              <% end %>
-            </div>
-
+      <!-- list title edit form -->
+      <%= form_for list, html: {class: "form-group edit_list_form"}, remote: true do |f| %>
+        <div class="row">
+          <div class="col-lg-9 col-mg-9 col-sm-12 pl-15 pr-15">
+            <%= f.text_field :title, id: "editListTitle", class: "form-control", value: list.title %>
+          </div>
+          <div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
+            <%= f.submit "수정", class: "btn btn-info"%>
           </div>
         </div>
       <% end %>
-    </div>
-  </div>
 
+
+      <% list.bookmarks.each do |bookmark| %>
+
+        <div id="bookmark_<%= bookmark.id %>" class="toggle toggle-transparent toggle-bordered-simple">
+          <div class="toggle mix design mix_all" style="display: block;  opacity: 1;">
+            <!-- toggle -->
+            <label class="size-13 nomargin noborder nopadding"><%= bookmark.title %></label>
+            <span class="size-11 text-muted"><%= bookmark.created_at.to_s %></span>
+
+            <!-- toggle content -->
+            <div class="toggle-content" style="display: none;">
+              <h5>
+                <i class="fa fa-bookmark"></i>
+                URL
+              </h5>
+              <p><%= bookmark.url %></p>
+
+              <h5>
+                <i class="fa fa-comment"></i>
+                Description
+              </h5>
+              <p><%= bookmark.description %></p>
+
+              <h5>
+                <i class="fa fa-tags"></i>
+                Tags</h5>
+
+              <ul class="list-unstyled list-icons">
+                <li>
+                  <i class="fa fa-check"></i>
+                  <%= bookmark.tag_1 %>
+                </li>
+                <li>
+                  <i class="fa fa-check"></i>
+                  <%= bookmark.tag_2 %>
+                </li>
+                <li>
+                  <i class="fa fa-check"></i>
+                  <%= bookmark.tag_3 %>
+                </li>
+              </ul>
+
+              <div class="text-right">
+                <ul class="list-inline categories nomargin text-muted size-11 hidden-xs">
+                  <li><%= link_to "EDIT", edit_bookmark_path(bookmark), class: "text-info" %></li>
+                  <li><%= link_to "DELETE", bookmark_path(bookmark), method: :delete, remote: true, class: "text-danger", data: {confirm: "#{bookmark.title}을 삭제합니다."} %></li>
+                </ul>
+              </div>
+            </div>
+            <!-- /toggle content -->
+
+          </div>
+        </div><!-- /toggle -->
+
+      <% end %>
+    </div>
+  <% end %>
+
+</div>
 
 <script type="text/javascript">
-  $(document).ready(function(){
+  $(document).ready(function () {
     // Board title 수정 부분
     var boardTitle = $('#board_title_div');
     var editBoardForm = $('#edit_board_' + <%= @board.id %>);
@@ -99,11 +135,51 @@
 
     console.log(101);
 
-    $('#board_title').on('click', function() {
+    $('#board_title').on('click', function () {
       boardTitle.hide();
       editBoardForm.show();
       console.log(104);
     });
+
+    // List create부분
+		var activeList = $('#active_new_list_form');
+    var deactiveList = $('#deactive_new_list_form');
+		var newListForm = $('#new_list');
+
+		activeList.show();
+    deactiveList.hide();
+		newListForm.hide();
+
+		console.log(101);
+
+		activeList.on('click', function() {
+			activeList.hide();
+      deactiveList.show();
+			newListForm.show();
+		});
+
+    deactiveList.on('click', function() {
+			activeList.show();
+      deactiveList.hide();
+			newListForm.hide();
+		});
+
+		newListForm.on('submit', function(event){
+			event.preventDefault();
+
+			$.ajax({url: "/lists",
+				type: "POST",
+				data: {
+					board:{
+						title:$("#new_list_title").val(),
+						board_id:$("#board_id").val()
+					}
+				},
+				success: function(result){
+			         render_createList(result)
+			  }
+			});
+		});
 
     // List title 수정
     var listTitle = $(".list_title");
@@ -112,12 +188,42 @@
     listTitle.show();
     editListForm.hide();
 
-    $(listTitle[0]).on('click', function() {
-      listTitle[0].hide();
-      editListForm[0].show();
+    $(listTitle).on('click', function () {
+      listTitle.hide();
+      editListForm.show();
     });
 
     // Bookmark destroy
 
   });
+
+  function render_createList(data){
+    var activeList = $('#active_new_list_form');
+    var deactiveList = $('#deactive_new_list_form');
+		var newListForm = $('#new_list');
+
+		console.log(222);
+
+		var new_list = "";
+
+		new_list += "<div class='bookmark_list'>";
+		new_list += "  <div class='thumbnail'>";
+		new_list += "    <div class='caption'>";
+		new_list += "      <h4 class='nomargin board_title'><a href='/boards/" + data.id + "'>" + data.title + "</a></h4>";
+		new_list += "			<ul class='list-inline categories nomargin text-right size-11'>";
+		new_list += "				<li><a class='text-info' href='/boards/" + data.id + "/edit'><i class='fa fa-edit'></i></a></li>";
+		new_list += "				<li><a class='text-danger' data-confirm='"+ data.title +"을 삭제합니다.' rel='nofollow' data-method='delete' href='/boards/" + data.id + "'><i class='fa fa-close'></i></a></li>";
+		new_list += "			</ul>";
+		new_list += "      <small class='margin-bottom-20 block text-right'>"+ data.created_at +"</small>";
+		new_list += "		</div>";
+		new_list += "	</div>";
+		new_list += "</div>";
+
+		$('#board_show').append(new_list);
+
+		$('#new_list_title').val("");
+    activeList.show();
+    activeList.hide();
+		newListForm.hide();
+	}
 </script>

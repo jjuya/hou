@@ -1,0 +1,54 @@
+<div id="newBookmarkModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">New Bookmark <i class="fa fa-bookmark"></i></h4>
+			</div>
+
+      <%= form_for(bookmark) do |f| %>
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <%= f.label :title, "<h4>Title</h4>".html_safe %>
+          <%= f.text_field :title, class: "form-control margin-bottom-3", placeholder: "Bookmark 이름을 입력해 주세요" %>
+
+          <%= f.label :url, "<h4>URL</h4>".html_safe %>
+          <%= f.text_field :url, class: "form-control margin-bottom-3", placeholder: "URL을 입력해 주세요" %>
+
+          <%= f.label :list_id, "<h4>Lists</h4>".html_safe %>
+          <%= f.select(:list_id, options_for_select(lists.map {|l| [l.title, l.id]}), {}, {class: "form-control pointer margin-bottom-3"}) %>
+
+          <%= f.label :description, "<h4>Description/<h4>".html_safe %>
+          <%= f.text_area :description, size: "60x3", class: "form-control margin-bottom-3" %>
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12">
+              <%= f.label :tag, "<h4>Tag</h4>".html_safe %>
+            </div>
+            <div class="col-md-4 col-sm-4">
+              <%= f.text_field :tag_1, class: "form-control", placeholder: "tag_1" %>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+              <%= f.text_field :tag_2, class: "form-control", placeholder: "tag_2" %>
+            </div>
+
+            <div class="col-md-4 col-sm-4">
+              <%= f.text_field :tag_3, class: "form-control", placeholder: "tag_3" %>
+            </div>
+          </div>
+  			</div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> SUBMIT</button>
+        </div>
+      <% end %>
+
+
+		</div>
+	</div>
+</div>

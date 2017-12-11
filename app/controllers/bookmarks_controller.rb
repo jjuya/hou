@@ -10,9 +10,7 @@ class BookmarksController < ApplicationController
   end
 
   def new
-    @board_id = params[:board_id]
-    @lists = Board.find(@board_id).lists
-    @bookmark = Bookmark.new()
+    redirect_to root_path
   end
 
   def create
