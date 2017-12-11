@@ -1,0 +1,25 @@
+<div class="bookmark_list">
+  <h3 id="list_<%= list.id %>" class="list_title">
+    <%= list.title %>
+  </h3>
+
+  <!-- list title edit form -->
+  <%= form_for list, html: {class: "form-group edit_list_form"}, remote: true do |f| %>
+    <div class="row">
+      <div class="col-lg-9 col-mg-9 col-sm-12 pl-15 pr-15">
+        <%= f.text_field :title, id: "editListTitle", class: "form-control", value: list.title %>
+      </div>
+      <div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
+        <%= f.submit "수정", class: "btn btn-info"%>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="slimscroll" data-always-visible="true" data-size="5px" data-position="right" data-opacity="0.4" disable-body-scroll="true">
+    <% list.bookmarks.each do |bookmark| %>
+
+      <%= render partial: "bookmarks/bookmark_card", locals: { bookmark: bookmark } %>
+
+    <% end %>
+  </div>
+</div>
