@@ -1,6 +1,5 @@
 <section class="page-header page-header-xs">
 	<div class="container">
-
 		<div id="active_new_board_form" class="row pull-right">
 			<div class="col-lg-2 col-md-3 col-sm-4 pull-right">
 				<button id="active_button" class="btn btn-outline-default text-center"><i class="fa fa-plus"></i></button>
@@ -11,13 +10,10 @@
 			<div class="col-lg-6 col-mg-6 col-sm-9 pl-15 pr-15">
 				<input type="text" id="new_board_title" class="form-control" placeholder="Board 이름을 입력해 주세요"/>
 				<input type="hidden" id="user_id"  value="<%=current_user.id%>"/>
-				<%# text_field_tag :title, class: "form-control", placeholder: "Board 이름을 입력해 주세요" %>
-				<%# hidden_field_tag :user_id, value: current_user.id %>
 			</div>
 
 			<div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
 				<input type="submit" id="create_button" class="btn btn-primary" value="만들기"/>
-				<%# submit_tag "만들기", class: "btn btn-primary"%>
 			</div>
 		</form>
 
@@ -79,10 +75,6 @@
 
 	</div>
 </section>
-
-</div>
-</div>
-
 
 <script type="text/javascript">
 	$(document).ready(function(){
