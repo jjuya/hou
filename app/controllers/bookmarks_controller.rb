@@ -37,10 +37,10 @@ class BookmarksController < ApplicationController
 
   def destroy
     @bookmark.destroy
-    
+
     list = List.find(bookmark.list_id)
 
-    redirect_to board_path(list.board_id)
+    render :json => @bookmark
   end
 
   private

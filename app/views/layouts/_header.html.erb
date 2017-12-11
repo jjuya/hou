@@ -47,7 +47,7 @@
 
 							<!-- quick cart footer -->
 							<div class="quick-cart-footer clearfix">
-								<%= link_to '로그아웃', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs pull-right" %>
+								<%= link_to '로그아웃', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs pull-right", data: {confirm: "#{current_user.email}로그아웃"} %>
 								<span class="pull-left"><%= current_user.boards.length%> <strong> BOARDS</strong></span>
 							</div>
 						<% end %>
@@ -60,7 +60,7 @@
 
 			<!-- Logo -->
 			<a class="logo pull-center" href="index.html">
-				<img src="assets/images/_smarty/logo_dark.png" alt="">
+				<!-- <img src="assets/images/_smarty/logo_dark.png" alt=""> -->
 			</a>
 
 			<!--

@@ -23,10 +23,7 @@ class BoardsController < ApplicationController
       board_id: @board.id
     )
 
-    respond_to do |format|
-      format.html { redirect_to "root" }
-      format.js
-    end
+    render :json => @board
   end
 
   def edit
@@ -37,7 +34,7 @@ class BoardsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to "root" }
-      format.js
+      format.js {}
     end
   end
 

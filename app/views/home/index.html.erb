@@ -1,35 +1,47 @@
 <section class="page-header page-header-xs">
 	<div class="container">
 
-		<div id="create_board" class="row pull-right">
+		<div id="active_new_board_form" class="row pull-right">
 			<div class="col-lg-2 col-md-3 col-sm-4 pull-right">
-				<button id="create_button" class="btn btn-outline-default text-center"><i class="fa fa-plus"></i></button>
+				<button id="active_button" class="btn btn-outline-default text-center"><i class="fa fa-plus"></i></button>
 			</div>
 		</div>
 
-		<%= form_for @board, html: {class: "nomargin"}, remote: true do |f| %>
-			<div class="row">
-				<div class="col-lg-6 col-mg-6 col-sm-12 pl-15 pr-15">
-					<%= f.text_field :title, class: "form-control", placeholder: "Board 이름을 입력해 주세요" %>
-					<%= f.hidden_field :user_id, value: current_user.id %>
-				</div>
-
-				<div class="col-lg-3 col-mg-3 col-sm-12 pl-15 pr-15 button-group">
-					<%= f.submit "만들기", class: "btn btn-primary"%>
-				</div>
+		<form id="new_board" class="row">
+			<div class="col-lg-6 col-mg-6 col-sm-9 pl-15 pr-15">
+				<input type="text" id="new_board_title" class="form-control" placeholder="Board 이름을 입력해 주세요"/>
+				<input type="hidden" id="user_id"  value="<%=current_user.id%>"/>
+				<%# text_field_tag :title, class: "form-control", placeholder: "Board 이름을 입력해 주세요" %>
+				<%# hidden_field_tag :user_id, value: current_user.id %>
 			</div>
-	  <% end %>
+
+			<div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
+				<input type="submit" id="create_button" class="btn btn-primary" value="만들기"/>
+				<%# submit_tag "만들기", class: "btn btn-primary"%>
+			</div>
+		</form>
+
+		<!-- <%#= form_for @board, html: {class: "row"}, remote: true do |f| %>
+			<div class="col-lg-6 col-mg-6 col-sm-9 pl-15 pr-15">
+				<%#= f.text_field :title, class: "form-control", placeholder: "Board 이름을 입력해 주세요" %>
+				<%#= f.hidden_field :user_id, value: current_user.id %>
+			</div>
+
+			<div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
+				<%#= f.submit "만들기", class: "btn btn-primary"%>
+			</div>
+    <%# end %> -->
 
 	</div>
 </section>
 
 </section>
 
-<!-- <section id="star">
+<section id="star">
 	<div class="container">
 		<h3 class="lead"><i class="fa fa-star-o"></i> Starred Boards </h3>
 
-		<% @boards.each do |board| %>
+		<!-- <% @boards.each do |board| %>
 			<div class="col-lg-3 col-md-4 col-sm-6">
 				<div class="thumbnail">
 					<div class="caption">
@@ -38,9 +50,9 @@
 					</div>
 				</div>
 			</div>
-		<% end %>
+		<% end %> -->
 	</div>
-</section> -->
+</section>
 
 <section id="basic">
 	<div class="container">
@@ -53,12 +65,12 @@
 						<div class="caption">
 							<h4 class="nomargin board_title">	<%= link_to board.title, board_path(board) %>	</h4>
 
-							<ul class="col list-inline categories nomargin text-right size-11 hidden-xs">
+							<ul class="list-inline categories nomargin text-right size-11">
 								<li><%= link_to "<i class='fa fa-edit'></i>".html_safe, edit_board_path(board), class: "text-info" %></li>
 								<li><%= link_to "<i class='fa fa-close'></i>".html_safe, board_path(board), method: :delete, class: "text-danger", data: {confirm: "#{board.title}을 삭제합니다."} %></li>
 							</ul>
 
-							<small class="margin-bottom-10 block text-right"> <%= board.created_at.to_s(:short) %> </small>
+							<small class="margin-bottom-10 block text-right"> <%= board.created_at %> </small>
 						</div>
 					</div>
 				</div>
@@ -75,19 +87,64 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		// Board create부분
-		var createButton = $('#create_button');
+		var active = $('#active_new_board_form');
 		var newBoardForm = $('#new_board');
 
-		createButton.show();
+		active.show();
 		newBoardForm.hide();
 
 		console.log(101);
 
-		createButton.on('click', function() {
-			createButton.hide();
+		$('#active_button').on('click', function() {
+			active.hide();
 			newBoardForm.show();
-			console.log(104);
 		});
 
+		newBoardForm.on('submit', function(event){
+			event.preventDefault();
+
+			$.ajax({url: "/boards",
+				type: "POST",
+				data: {
+					board:{
+						title:$("#new_board_title").val(),
+						user_id:$("#user_id").val()
+					}
+				},
+				success: function(result){
+			         render_js(result)
+			  }
+			});
+		});
+
+		// Board destroy부분
 	});
+
+	function render_js(data){
+		var active = $('#active_new_board_form');
+		var newBoardForm = $('#new_board');
+
+		console.log(222);
+
+		var new_board = "";
+
+		new_board += "<div class='col-lg-3 col-md-4 col-sm-6'>";
+		new_board += "  <div class='thumbnail'>";
+		new_board += "    <div class='caption'>";
+		new_board += "      <h4 class='nomargin board_title'><a href='/boards/" + data.id + "'>" + data.title + "</a></h4>";
+		new_board += "			<ul class='list-inline categories nomargin text-right size-11'>";
+		new_board += "				<li><a class='text-info' href='/boards/" + data.id + "/edit'><i class='fa fa-edit'></i></a></li>";
+		new_board += "				<li><a class='text-danger' data-confirm='"+ data.title +"을 삭제합니다.' rel='nofollow' data-method='delete' href='/boards/" + data.id + "'><i class='fa fa-close'></i></a></li>";
+		new_board += "			</ul>";
+		new_board += "      <small class='margin-bottom-20 block text-right'>"+ data.created_at +"</small>";
+		new_board += "		</div>";
+		new_board += "	</div>";
+		new_board += "</div>";
+
+		$('#basic_boards').append(new_board);
+
+		$('#new_board_title').val("");
+		active.show();
+		newBoardForm.hide();
+	}
 </script>

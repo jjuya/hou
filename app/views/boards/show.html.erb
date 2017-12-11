@@ -1,11 +1,11 @@
 <section class="page-header page-header-xs">
   <div id="board_title_div" class="pl-15 pr-15">
     <div class="row">
-      <div class="col-lg-6 col-mg-6 col-sm-12 pl-15 pr-15">
+      <div class="col-lg-9 col-mg-6 col-sm-9 pl-15 pr-15">
           <h4 id="board_title"> <%= @board.title %> </h4>
       </div>
 
-      <div class="col-lg-6 col-mg-6 col-sm-12 pl-15 pr-15 text-right">
+      <div class="col-lg-3 col-mg-6 col-sm-3 pl-15 pr-15 text-right">
         <%= link_to "리스트 만들기", new_lists_path(@board), class: "btn btn-primary" %>
         <%= link_to "북마크 만들기", new_bookmarks_path(@board), class: "btn btn-primary" %>
       </div>
@@ -29,17 +29,17 @@
       <% @lists.each do |list| %>
         <div class="col-lg-3 col-md-6 col-sm-6 pt-15 pb-15">
           <div class="box-inner">
-            <h3 id="list_title">
+            <h3 id="list_<%= list.id %>" class="list_title">
               <%= list.title %>
             </h3>
 
-            <%= form_for list, html: {class: "form-group"}, remote: true do |f| %>
+            <%= form_for list, html: {class: "form-group edit_list_form"}, remote: true do |f| %>
               <div class="row">
                 <div class="col-lg-9 col-mg-9 col-sm-12 pl-15 pr-15">
                   <%= f.text_field :title, id: "editListTitle", class: "form-control", value: list.title %>
                 </div>
                 <div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
-                  <%= f.submit "수정", class: "btn btn-primary"%>
+                  <%= f.submit "수정", class: "btn btn-info"%>
                 </div>
               </div>
             <% end %>
@@ -47,12 +47,12 @@
             <div class="slimscroll" data-always-visible="true" data-size="5px" data-position="right" data-opacity="0.4" disable-body-scroll="true">
               <% list.bookmarks.each do |bookmark| %>
 
-                <div class="toggle toggle-transparent toggle-bordered-simple">
+                <div id="bookmark_<%= bookmark.id %>" class="toggle toggle-transparent toggle-bordered-simple">
                   <div class="toggle mix design mix_all" style="display: block;  opacity: 1;"><!-- toggle -->
                     <label class="size-13 nomargin noborder nopadding"><%= bookmark.title %></label>
                     <span class="size-11 text-muted"><%= bookmark.created_at.to_s %></span>
-                    <div class="toggle-content" style="display: none;">
 
+                    <div class="toggle-content" style="display: none;">
                       <h5><i class="fa fa-bookmark"></i> URL </h5>
                       <p><%= bookmark.url %></p>
 
@@ -70,11 +70,13 @@
                       <div class="text-right">
                         <ul class="list-inline categories nomargin text-muted size-11 hidden-xs">
                           <li><%= link_to "EDIT", edit_bookmark_path(bookmark), class: "text-info" %></li>
-                          <li><%= link_to "DELETE", bookmark_path(bookmark), method: :delete, class: "text-danger", data: {confirm: "#{bookmark.title}을 삭제합니다."} %></li>
+                          <li><button class="text-danger" data-confirm="<%= bookmark.title%>을 삭제합니다.">DELETE</button></li>
+                          <!-- <li><%#= link_to "DELETE", bookmark_path(bookmark), method: :delete, remote: true, class: "text-danger", data: {confirm: "#{bookmark.title}을 삭제합니다."} %></li> -->
                         </ul>
                       </div>
                     </div>
                   </div><!-- /toggle -->
+
                 </div>
               <% end %>
             </div>
@@ -104,5 +106,18 @@
     });
 
     // List title 수정
+    var listTitle = $(".list_title");
+    var editListForm = $(".edit_list_form");
+
+    listTitle.show();
+    editListForm.hide();
+
+    $(listTitle[0]).on('click', function() {
+      listTitle[0].hide();
+      editListForm[0].show();
+    });
+
+    // Bookmark destroy
+
   });
 </script>

@@ -1,18 +1,28 @@
-var createButton = $('#create_button');
+var active = $('#active_new_board_form');
 var newBoardForm = $('#new_board');
 
 console.log(222);
 
 var new_board = "";
 
+var edit = "<i class='fa fa-edit'></i>";
+var close = "<i class='fa fa-close'></i>";
+
 new_board += "<div class='col-lg-3 col-md-4 col-sm-6'>";
 new_board += "  <div class='thumbnail'>";
 new_board += "    <div class='caption'>";
-new_board += "      <h4 class='nomargin board_title'> <%= link_to @board.title, board_path(@board) %> </h4>";
-new_board += "      <small class='margin-bottom-20 block'> <%= @board.created_at.to_s(:short) %> </small>";
-new_board += "</div> </div> </div>";
+new_board += "      <h4 class='nomargin board_title'><%= link_to @board.id, board_path(@board) %></h4>";
+new_board += "			<ul class='list-inline categories nomargin text-right size-11'>";
+new_board += "				<li><%= link_to " + edit + ", board_path(@board), method: :delete, class: 'text-danger', data: {confirm: '#{@board.title}을 삭제합니다.'} %></li>";
+new_board += "				<li><%= link_to " + close + ", edit_board_path(@board), class: 'text-info' %></li>";
+new_board += "			</ul>";
+new_board += "      <small class='margin-bottom-20 block text-right'><%= @board.created_at.to_s(:show) %></small>";
+new_board += "		</div>";
+new_board += "	</div>";
+new_board += "</div>";
 
 $('#basic_boards').append(new_board);
 
-createButton.show();
+$('#new_board_title').val("");
+active.show();
 newBoardForm.hide();
