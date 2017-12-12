@@ -6,12 +6,8 @@ Rails.application.routes.draw do
 
   resources :boards
 
-  resources :lists do
-    collection do
-      get '/new/:board_id' => 'lists#new', as: 'new'
-    end
-  end
-
+  resources :lists
+  
   resources :bookmarks
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -47,10 +47,8 @@
 <!-- show lists & bookmarks-->
 <div id="board_show">
   <% @lists.each do |list| %>
-
     <!-- list show -->
     <%= render partial: "lists/list_show", locals: { list: list } %>
-
   <% end %>
 
 </div>
@@ -98,7 +96,7 @@
 		newListForm.on('submit', function(event){
 			event.preventDefault();
 
-			$.ajax({url: "/lists",
+			$.ajax({url: "<%= lists_path(@list) %>",
 				type: "POST",
 				data: {
 					list:{
@@ -111,20 +109,6 @@
 			  }
 			});
 		});
-
-    // List title 수정
-    var listTitle = $(".list_title");
-    var editListForm = $(".edit_list_form");
-
-    listTitle.show();
-    editListForm.hide();
-
-    $(listTitle).on('click', function () {
-      listTitle.hide();
-      editListForm.show();
-    });
-
-    // Bookmark destroy
 
   });
 

@@ -39,7 +39,7 @@
       <div class="modal-footer">
         <ul class="list-inline categories nomargin text-muted size-11 hidden-xs">
           <li><button type="button" class="text-info" data-toggle="modal" data-target="#edit_bookmark_<%= bookmark.id %>">EDIT</button>
-          <li><%= link_to "DELETE", bookmark_path(bookmark), method: :delete, remote: true, class: "text-danger", data: {confirm: "#{bookmark.title}을 삭제합니다."} %></li>
+          <li><%= link_to "DELETE", bookmark_path(bookmark), method: :delete, class: "text-danger", data: {confirm: "#{bookmark.title}을 삭제합니다."} %></li>
           <li><button type="button" class="text-default" data-dismiss="modal">CLOSE</button></li>
         </ul>
       </div>

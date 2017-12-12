@@ -1,14 +1,18 @@
-
 <div class="bookmark_list">
-  <h3 id="list_<%= list.id %>" class="text_hide">
-    <%= list.title %>
-  </h3>
+  <div id="list_title_div_<%=list.id%>">
+    <ul class="list-inline categories nomargin text-muted size-11 hidden-xs text-right">
+      <li><%= link_to "DELETE", list_path(list), method: :delete, remote: true, class: "text-danger", data: {confirm: "#{list.title}을 삭제합니다."} %></li>
+    </ul>
+    <h3 id="list_title_<%= list.id %>" class="text_hide">
+      <%= list.title %>
+    </h3>
+  </div>
 
   <!-- list title edit form -->
   <%= form_for list, html: {class: "form-group edit_list_form"}, remote: true do |f| %>
     <div class="row">
       <div class="col-lg-9 col-mg-9 col-sm-12 pl-15 pr-15">
-        <%= f.text_field :title, id: "editListTitle", class: "form-control", value: list.title %>
+        <%= f.text_field :title, id: "edit_list_title", class: "form-control", value: list.title %>
       </div>
       <div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
         <%= f.submit "수정", class: "btn btn-info"%>
@@ -28,3 +32,40 @@
   <!-- bookmark edit-->
   <%= render partial: "bookmarks/bookmark_edit", locals: { bookmark: bookmark } %>
 <% end %>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    // List title 수정
+    var listTitle = $("#list_title_div_<%=list.id%>");
+    var editListForm = $("#edit_list_<%=list.id%>");
+
+    listTitle.show();
+    editListForm.hide();
+
+    $("#list_title_<%=list.id%>").on('click', function () {
+      listTitle.hide();
+      editListForm.show();
+    });
+
+    editListForm.on('submit', function(event){
+			event.preventDefault();
+
+			$.ajax({
+        url: "<%= list_path(list) %>",
+				type: "PATCH",
+				data: {
+					list:{
+						title:$("#edit_list_title").val(),
+						board_id:<%= list.board_id %>
+					}
+				},
+				success: function(){
+          $("#edit_list_title").val("");
+          listTitle.show();
+          editListForm.hide();
+			  }
+			});
+		});
+
+  });
+</script>
