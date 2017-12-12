@@ -42,84 +42,15 @@
 </section>
 
 <!-- create bookmark-->
-<%= render partial: "bookmarks/new", locals: { lists: @lists, bookmark: @bookmark } %>
+<%= render partial: "bookmarks/bookmark_new", locals: { lists: @lists, bookmark: @bookmark } %>
 
 <!-- show lists & bookmarks-->
 <div id="board_show">
   <% @lists.each do |list| %>
-    <div class="bookmark_list">
-      <h3 id="list_<%= list.id %>" class="list_title">
-        <%= list.title %>
-      </h3>
 
-      <!-- list title edit form -->
-      <%= form_for list, html: {class: "form-group edit_list_form"}, remote: true do |f| %>
-        <div class="row">
-          <div class="col-lg-9 col-mg-9 col-sm-12 pl-15 pr-15">
-            <%= f.text_field :title, id: "editListTitle", class: "form-control", value: list.title %>
-          </div>
-          <div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
-            <%= f.submit "수정", class: "btn btn-info"%>
-          </div>
-        </div>
-      <% end %>
+    <!-- list show -->
+    <%= render partial: "lists/list_show", locals: { list: list } %>
 
-
-      <% list.bookmarks.each do |bookmark| %>
-
-        <div id="bookmark_<%= bookmark.id %>" class="toggle toggle-transparent toggle-bordered-simple">
-          <div class="toggle mix design mix_all" style="display: block;  opacity: 1;">
-            <!-- toggle -->
-            <label class="size-13 nomargin noborder nopadding"><%= bookmark.title %></label>
-            <span class="size-11 text-muted"><%= bookmark.created_at.to_s %></span>
-
-            <!-- toggle content -->
-            <div class="toggle-content" style="display: none;">
-              <h5>
-                <i class="fa fa-bookmark"></i>
-                URL
-              </h5>
-              <p><%= bookmark.url %></p>
-
-              <h5>
-                <i class="fa fa-comment"></i>
-                Description
-              </h5>
-              <p><%= bookmark.description %></p>
-
-              <h5>
-                <i class="fa fa-tags"></i>
-                Tags</h5>
-
-              <ul class="list-unstyled list-icons">
-                <li>
-                  <i class="fa fa-check"></i>
-                  <%= bookmark.tag_1 %>
-                </li>
-                <li>
-                  <i class="fa fa-check"></i>
-                  <%= bookmark.tag_2 %>
-                </li>
-                <li>
-                  <i class="fa fa-check"></i>
-                  <%= bookmark.tag_3 %>
-                </li>
-              </ul>
-
-              <div class="text-right">
-                <ul class="list-inline categories nomargin text-muted size-11 hidden-xs">
-                  <li><%= link_to "EDIT", edit_bookmark_path(bookmark), class: "text-info" %></li>
-                  <li><%= link_to "DELETE", bookmark_path(bookmark), method: :delete, remote: true, class: "text-danger", data: {confirm: "#{bookmark.title}을 삭제합니다."} %></li>
-                </ul>
-              </div>
-            </div>
-            <!-- /toggle content -->
-
-          </div>
-        </div><!-- /toggle -->
-
-      <% end %>
-    </div>
   <% end %>
 
 </div>
@@ -170,7 +101,7 @@
 			$.ajax({url: "/lists",
 				type: "POST",
 				data: {
-					board:{
+					list:{
 						title:$("#new_list_title").val(),
 						board_id:$("#board_id").val()
 					}
@@ -206,18 +137,11 @@
 
 		var new_list = "";
 
-		new_list += "<div class='bookmark_list'>";
-		new_list += "  <div class='thumbnail'>";
-		new_list += "    <div class='caption'>";
-		new_list += "      <h4 class='nomargin board_title'><a href='/boards/" + data.id + "'>" + data.title + "</a></h4>";
-		new_list += "			<ul class='list-inline categories nomargin text-right size-11'>";
-		new_list += "				<li><a class='text-info' href='/boards/" + data.id + "/edit'><i class='fa fa-edit'></i></a></li>";
-		new_list += "				<li><a class='text-danger' data-confirm='"+ data.title +"을 삭제합니다.' rel='nofollow' data-method='delete' href='/boards/" + data.id + "'><i class='fa fa-close'></i></a></li>";
-		new_list += "			</ul>";
-		new_list += "      <small class='margin-bottom-20 block text-right'>"+ data.created_at +"</small>";
-		new_list += "		</div>";
-		new_list += "	</div>";
-		new_list += "</div>";
+    new_list += "<div class='bookmark_list'>";
+    new_list += "  <h3 id='list_" + data.id + "' class='list_title'>";
+    new_list += data.title;
+    new_list += "  </h3>";
+    new_list += "</div>";
 
 		$('#board_show').append(new_list);
 

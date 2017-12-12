@@ -1,5 +1,6 @@
+
 <div class="bookmark_list">
-  <h3 id="list_<%= list.id %>" class="list_title">
+  <h3 id="list_<%= list.id %>" class="text_hide">
     <%= list.title %>
   </h3>
 
@@ -15,11 +16,15 @@
     </div>
   <% end %>
 
-  <div class="slimscroll" data-always-visible="true" data-size="5px" data-position="right" data-opacity="0.4" disable-body-scroll="true">
-    <% list.bookmarks.each do |bookmark| %>
-
-      <%= render partial: "bookmarks/bookmark_card", locals: { bookmark: bookmark } %>
-
-    <% end %>
-  </div>
+  <% list.bookmarks.each do |bookmark| %>
+    <!-- bookmark card -->
+    <%= render partial: "bookmarks/bookmark_card", locals: { bookmark: bookmark } %>
+  <% end %>
 </div>
+
+<% list.bookmarks.each do |bookmark| %>
+  <!-- bookmark show-->
+  <%= render partial: "bookmarks/bookmark_show", locals: { bookmark: bookmark } %>
+  <!-- bookmark edit-->
+  <%= render partial: "bookmarks/bookmark_edit", locals: { bookmark: bookmark } %>
+<% end %>

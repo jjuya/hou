@@ -8,7 +8,7 @@
 				<h4 class="modal-title" id="myModalLabel">New Bookmark <i class="fa fa-bookmark"></i></h4>
 			</div>
 
-      <%= form_for(bookmark) do |f| %>
+      <%= form_for(@bookmark) do |f| %>
         <!-- Modal Body -->
         <div class="modal-body">
           <%= f.label :title, "<h4>Title</h4>".html_safe %>
@@ -18,7 +18,7 @@
           <%= f.text_field :url, class: "form-control margin-bottom-3", placeholder: "URL을 입력해 주세요" %>
 
           <%= f.label :list_id, "<h4>Lists</h4>".html_safe %>
-          <%= f.select(:list_id, options_for_select(lists.map {|l| [l.title, l.id]}), {}, {class: "form-control pointer margin-bottom-3"}) %>
+          <%= f.select(:list_id, options_for_select(@lists.map {|l| [l.title, l.id]}), {}, {class: "form-control pointer margin-bottom-3"}) %>
 
           <%= f.label :description, "<h4>Description/<h4>".html_safe %>
           <%= f.text_area :description, size: "60x3", class: "form-control margin-bottom-3" %>
@@ -47,7 +47,6 @@
           <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> SUBMIT</button>
         </div>
       <% end %>
-
 
 		</div>
 	</div>

@@ -28,7 +28,7 @@ class BookmarksController < ApplicationController
   def update
     @bookmark.update(bookmark_params)
 
-    list = List.find(bookmark.list_id)
+    list = List.find(@bookmark.list_id)
 
     redirect_to board_path(list.board_id)
   end
@@ -47,7 +47,7 @@ class BookmarksController < ApplicationController
   end
 
   def bookmark_params
-  	params.require(:bookmark).permit(:title, :url, :list_id, :tag_1, :tag_2, :tag_3)
+  	params.require(:bookmark).permit(:title, :url, :description, :list_id, :tag_1, :tag_2, :tag_3)
   end
 
 end
