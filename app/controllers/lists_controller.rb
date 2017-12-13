@@ -30,31 +30,46 @@ class ListsController < ApplicationController
   end
 
   def update
-    @list.update(list_params)
 
-    if @list.save
+    if @list.title == "No title"
+      flash[:toastr] = { "error" => "Error: Not allowed!" }
+
       redirect_to board_path(@list.board_id)
     else
-      flash[:error] = "Error: Not Update List"
-      redirect_to board_path(@list.board_id)
+      @list.update(list_params)
+
+      if @list.save
+        redirect_to board_path(@list.board_id)
+      else
+        flash[:toastr] = { "error" => "Error: Not Update List" }
+        redirect_to board_path(@list.board_id)
+      end
     end
   end
 
   def destroy
-    noTitle = List.find_by(title: "No title", board_id: @list.board_id)
 
-    @list.bookmarks.each do |b|
-      b.update(list_id: noTitle.id)
-    end
+    if @list.title == "No title"
+      flash[:toastr] = { "error" => "Error: Not allowed!" }
 
-    @list.destroy
-
-    if @list.save
       redirect_to board_path(@list.board_id)
     else
-      flash[:error] = "Error: Not Destroy List"
-      redirect_to board_path(@list.board_id)
+      noTitle = List.find_by(title: "No title", board_id: @list.board_id)
+
+      @list.bookmarks.each do |b|
+        b.update(list_id: noTitle.id)
+      end
+
+      @list.destroy
+
+      if @list.save
+        redirect_to board_path(@list.board_id)
+      else
+        flash[:toastr] = { "error" => "Error: Not Destroy List" }
+        redirect_to board_path(@list.board_id)
+      end
     end
+
   end
 
   private

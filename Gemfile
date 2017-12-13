@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'faker'
 gem 'devise'
 gem 'kaminari'
+gem 'toastr-rails'
 
 gem 'bootstrap-sass'
 

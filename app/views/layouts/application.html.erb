@@ -16,17 +16,13 @@
       <%= render "/layouts/header"%>
     <% end %>
 
-    <% if flash[:error] %>
-      <div id="toast-container" class="toast-top-right" aria-live="polite" role="alert">
-        <div class="toast toast-error" style="display: block;">
-          <div class="toast-message">
-            <%= flash[:error] %>
-          </div>
-        </div>
-      </div>
+    <% if flash[:toastr] %>
+      <script type="text/javascript">
+        <% flash[:toastr].each do |type, message| %>
+          toastr.<%= type %>("<%= message %>")
+        <% end %>
+      </script>
     <% end %>
-
-
 
     <%= yield %>
   <!-- </div> -->

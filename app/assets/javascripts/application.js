@@ -16,4 +16,7 @@
 
 //= require bootstrap
 //= require scripts
+
+//= require toastr
+
 //= require_tree .

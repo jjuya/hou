@@ -29,7 +29,7 @@ class BoardsController < ApplicationController
 
       render :json => board
     else
-      flash[:error] = "Error: Not Create Board"
+      flash[:toastr] = { "error" => "Error: Not Create Board" }
       redirect_to root_path
     end
   end
@@ -46,7 +46,7 @@ class BoardsController < ApplicationController
         format.js {}
       end
     else
-      flash[:error] = "Error: Not Update Board Title"
+      flash[:toastr] = { "error" => "Error: Not Update Board Title" }
       redirect_to board_path(@board)
     end
   end
@@ -57,7 +57,7 @@ class BoardsController < ApplicationController
     if @board.save
       redirect_to root_path
     else
-      flash[:error] = "Error: Not Destroy Board"
+      flash[:toastr] = { "error" => "Error: Not Destroy Board" }
       redirect_to root_path
     end
   end

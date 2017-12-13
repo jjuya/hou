@@ -21,7 +21,7 @@ class BookmarksController < ApplicationController
     if bookmark.save
       redirect_to board_path(list.board_id)
     else
-      flash[:error] = "Error: Not Bookmark Bookmark"
+      flash[:toastr] = { "error" => "Error: Not Bookmark Bookmark" }
       redirect_to board_path(list.board_id)
     end
   end
@@ -38,7 +38,7 @@ class BookmarksController < ApplicationController
     if @bookmark.save
       redirect_to board_path(list.board_id)
     else
-      flash[:error] = "Error: Not Update Bookmark"
+      flash[:toastr] = { "error" => "Error: Not Update Bookmark" }
       redirect_to board_path(list.board_id)
     end
   end
@@ -51,6 +51,7 @@ class BookmarksController < ApplicationController
     if @bookmark.save
       redirect_to board_path(list.board_id)
     else
+      flash[:toastr] = { "error" => "Error: Not Destroy Bookmark" }
       flash[:error] = "Error: Not Destroy Bookmark"
       redirect_to board_path(list.board_id)
     end
