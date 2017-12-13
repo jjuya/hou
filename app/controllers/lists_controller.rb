@@ -17,7 +17,12 @@ class ListsController < ApplicationController
   def create
     @list = List.create(list_params)
 
-    redirect_to board_path(list_params[:board_id])
+    if @list.save
+      redirect_to board_path(list_params[:board_id])
+    else
+      flash[:error] = "Error: Not Create List"
+      redirect_to board_path(list_params[:board_id])
+    end
   end
 
   def edit
@@ -26,7 +31,12 @@ class ListsController < ApplicationController
   def update
     @list.update(list_params)
 
-    redirect_to board_path(list_params[:board_id])
+    if @list.save
+      redirect_to board_path(list_params[:board_id])
+    else
+      flash[:error] = "Error: Not Update List"
+      redirect_to board_path(list_params[:board_id])
+    end
   end
 
   def destroy
@@ -38,7 +48,12 @@ class ListsController < ApplicationController
 
     @list.destroy
 
-    redirect_to board_path(@list.board_id)
+    if @list.save
+      redirect_to board_path(list_params[:board_id])
+    else
+      flash[:error] = "Error: Not Destroy List"
+      redirect_to board_path(list_params[:board_id])
+    end
   end
 
   private
