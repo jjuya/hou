@@ -14,30 +14,38 @@
 ActiveRecord::Schema.define(version: 20171205084554) do
 
   create_table "boards", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",      default: "board", null: false
+    t.boolean  "starred",    default: false,   null: false
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
+  add_index "boards", ["user_id"], name: "index_boards_on_user_id"
+
   create_table "bookmarks", force: :cascade do |t|
-    t.string   "title"
-    t.string   "url"
+    t.string   "title",       default: "bookmark", null: false
+    t.string   "url",                              null: false
     t.text     "description"
     t.string   "tag_1"
     t.string   "tag_2"
     t.string   "tag_3"
+    t.integer  "rating",      default: 0,          null: false
     t.integer  "list_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
+  add_index "bookmarks", ["list_id"], name: "index_bookmarks_on_list_id"
+
   create_table "lists", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",      default: "list", null: false
     t.integer  "board_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
+
+  add_index "lists", ["board_id"], name: "index_lists_on_board_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
