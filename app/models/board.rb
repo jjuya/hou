@@ -9,5 +9,5 @@ class Board < ActiveRecord::Base
             length: {minimun: 1, maximum: 20}
 
   validates :starred,
-            presence: true
+            inclusion: { in: [ true, false ] }
 end

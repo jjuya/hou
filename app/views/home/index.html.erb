@@ -95,21 +95,22 @@
 		newBoardForm.on('submit', function(event){
 			event.preventDefault();
 
-			$.ajax({url: "/boards",
+			$.ajax({
+				url: "<%= boards_path %>",
 				type: "POST",
 				data: {
-					board:{
-						title:$("#new_board_title").val(),
-						user_id:$("#user_id").val()
+					board: {
+						title: $("#new_board_title").val(),
+						user_id: $("#user_id").val(),
+						starred: false
 					}
 				},
 				success: function(result){
-			         render_js(result)
+			         render_js(result);
 			  }
 			});
 		});
 
-		// Board destroy부분
 	});
 
 	function render_js(data){

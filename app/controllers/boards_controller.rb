@@ -14,18 +14,24 @@ class BoardsController < ApplicationController
   end
 
   def new
-    @board = Board.new
+
   end
 
   def create
-    @board = Board.create(board_params)
+    board = Board.create(board_params)
+    # puts board.errors.inspect if board.errors
 
-    List.create(
-      title: "No title",
-      board_id: @board.id
-    )
+    if board.save
+      List.create(
+        title: "No title",
+        board_id: board.id
+      )
 
-    render :json => @board
+      render :json => board
+    else
+      flash[:error] = "Error: Not Create Board"
+      redirect_to root_path
+    end
   end
 
   def edit
@@ -34,15 +40,26 @@ class BoardsController < ApplicationController
   def update
     @board.update(board_params)
 
-    respond_to do |format|
-      format.html { redirect_to "root" }
-      format.js {}
+    if @board.save
+      respond_to do |format|
+        format.html { redirect_to "root" }
+        format.js {}
+      end
+    else
+      flash[:error] = "Error: Not Update Board Title"
+      redirect_to board_path(@board)
     end
   end
 
   def destroy
     @board.destroy
-    redirect_to root_path
+
+    if @board.save
+      redirect_to root_path
+    else
+      flash[:error] = "Error: Not Destroy Board"
+      redirect_to root_path
+    end
   end
 
   private
@@ -53,7 +70,7 @@ class BoardsController < ApplicationController
   end
 
   def board_params
-    params.require(:board).permit(:title, :user_id)
+    params.require(:board).permit(:title, :user_id, :starred)
   end
 
   def user_check
