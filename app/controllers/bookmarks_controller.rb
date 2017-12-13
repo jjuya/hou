@@ -3,10 +3,11 @@ class BookmarksController < ApplicationController
   before_action :set_bookmark, only: [:show, :edit, :update, :destroy]
 
   def index
+    redirect_to root_path
   end
 
   def show
-    @board = Board.find(@bookmark.board_id)
+    redirect_to root_path
   end
 
   def new
@@ -17,12 +18,16 @@ class BookmarksController < ApplicationController
     bookmark = Bookmark.create(bookmark_params)
     list = List.find(bookmark.list_id)
 
-    redirect_to board_path(list.board_id)
+    if bookmark.save
+      redirect_to board_path(list_params[:board_id])
+    else
+      flash[:error] = "Error: Not Bookmark Bookmark"
+      redirect_to board_path(list_params[:board_id])
+    end
   end
 
   def edit
-    board = List.find(@bookmark.list_id).board
-    @lists = board.lists
+    redirect_to root_path
   end
 
   def update
@@ -30,7 +35,12 @@ class BookmarksController < ApplicationController
 
     list = List.find(@bookmark.list_id)
 
-    redirect_to board_path(list.board_id)
+    if bookmark.save
+      redirect_to board_path(list_params[:board_id])
+    else
+      flash[:error] = "Error: Not Update Bookmark"
+      redirect_to board_path(list_params[:board_id])
+    end
   end
 
   def destroy
@@ -38,7 +48,12 @@ class BookmarksController < ApplicationController
 
     list = List.find(@bookmark.list_id)
 
-    redirect_to board_path(list.board_id)
+    if bookmark.save
+      redirect_to board_path(list_params[:board_id])
+    else
+      flash[:error] = "Error: Not Destroy Bookmark"
+      redirect_to board_path(list_params[:board_id])
+    end
   end
 
   private
