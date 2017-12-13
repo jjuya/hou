@@ -19,10 +19,10 @@ class BookmarksController < ApplicationController
     list = List.find(bookmark.list_id)
 
     if bookmark.save
-      redirect_to board_path(list_params[:board_id])
+      redirect_to board_path(list.board_id)
     else
       flash[:error] = "Error: Not Bookmark Bookmark"
-      redirect_to board_path(list_params[:board_id])
+      redirect_to board_path(list.board_id)
     end
   end
 
@@ -35,11 +35,11 @@ class BookmarksController < ApplicationController
 
     list = List.find(@bookmark.list_id)
 
-    if bookmark.save
-      redirect_to board_path(list_params[:board_id])
+    if @bookmark.save
+      redirect_to board_path(list.board_id)
     else
       flash[:error] = "Error: Not Update Bookmark"
-      redirect_to board_path(list_params[:board_id])
+      redirect_to board_path(list.board_id)
     end
   end
 
@@ -48,11 +48,11 @@ class BookmarksController < ApplicationController
 
     list = List.find(@bookmark.list_id)
 
-    if bookmark.save
-      redirect_to board_path(list_params[:board_id])
+    if @bookmark.save
+      redirect_to board_path(list.board_id)
     else
       flash[:error] = "Error: Not Destroy Bookmark"
-      redirect_to board_path(list_params[:board_id])
+      redirect_to board_path(list.board_id)
     end
   end
 
