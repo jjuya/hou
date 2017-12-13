@@ -4,7 +4,7 @@ class BoardsController < ApplicationController
   # before_action :user_check, only: [:show, :edit, :update, :destroy]
 
   def index
-    @board = Board.new
+    redirect_to root_path
   end
 
   def show
@@ -14,7 +14,7 @@ class BoardsController < ApplicationController
   end
 
   def new
-
+    redirect_to root_path
   end
 
   def create
