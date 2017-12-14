@@ -1,0 +1,24 @@
+	
+우분투 16.04 Ubuntu 16.04 에 JAVA 설치
+
+
+sudo apt-get update
+sudo apt-get install default-jre
+sudo apt-get install default-jdk
+ 
+Oracle JDK 설치
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+ 
+sudo apt-get install oracle-java8-installer
+
+ 
+ 
+JAVA_HOME 설정
+
+sudo vi /etc/environment
+(복붙->) 
+JAVA_HOME="/usr/lib/jvm/java-8-oracle"
+
+source /etc/environment
+echo $JAVA_HOME
