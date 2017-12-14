@@ -13,7 +13,7 @@ gem 'open_uri_redirections'
 
 # Korean NLP
 gem 'twitter-korean-text-ruby'
-# gem 'ots'
+gem 'ots'
 
 # For Tag
 gem 'tf-idf-similarity'
