@@ -7,6 +7,18 @@ gem 'toastr-rails'
 
 gem 'bootstrap-sass'
 
+gem 'httparty'
+gem 'nokogiri'
+gem 'open_uri_redirections'
+
+# Korean NLP
+gem 'twitter-korean-text-ruby'
+# gem 'ots'
+
+# For Tag
+gem 'tf-idf-similarity'
+gem 'narray'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.9'
 # Use sqlite3 as the database for Active Record
