@@ -29,21 +29,37 @@
     white-space: nowrap;
 }
 
-#board_show {
+.board-wrapper {
+  height: 100%;
+}
+
+.board-canvas {
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
+
+  height: 100%;
 
   padding:15px;
 	background-color:rgba(0,0,0,0.05);
 }
 
-.bookmark_list {
+
+.list-wrapper {
   display: inline-block;
-	padding:15px;
   margin-right: 15px;
   width: 400px;
-  line-height:17px;
+
+  height: 100%;
+
+  vertical-align: top;
+}
+
+.list {
+    background: #fff;
+
+    padding:15px;
+    line-height:17px;
 }
 
 .bookmark_list h1,
@@ -57,8 +73,4 @@
 	padding-bottom:12px;
 	border-bottom:rgba(0,0,0,0.1) 1px solid;
 	margin-bottom:15px;
-}
-
-#board_show .bookmark_list {
-	background-color:#fff;
 }
