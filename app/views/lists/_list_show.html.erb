@@ -1,7 +1,7 @@
 <div class="bookmark_list">
-  <div id="list_title_div_<%=list.id%>">
+  <div id="list_title_div_<%= list.id %>">
     <ul class="list-inline categories nomargin text-muted size-11 hidden-xs text-right">
-      <li><%= link_to "DELETE", list_path(list), method: :delete, remote: true, class: "text-danger", data: {confirm: "#{list.title}을 삭제합니다."} %></li>
+      <li><%= link_to "DELETE <i class='fa fa-minus'></i>".html_safe, list_path(list), method: :delete, remote: true, class: "text-danger", data: {confirm: "#{list.title}을 삭제합니다."} %></li>
     </ul>
     <h3 id="list_title_<%= list.id %>" class="text_hide">
       <%= list.title %>
@@ -24,6 +24,12 @@
     <!-- bookmark card -->
     <%= render partial: "bookmarks/bookmark_card", locals: { bookmark: bookmark } %>
   <% end %>
+
+  <footer>
+    <ul class="list-inline categories nomargin text-muted size-11 hidden-xs">
+      <li><a class="text-info active_new_bookmark_form" data-toggle="modal" data-id="<%= list.id %>" href="#newBookmarkModal"> <i class='fa fa-plus'></i> ADD BOOKMARK</a></li>
+    </ul>
+  </footer>
 </div>
 
 <% list.bookmarks.each do |bookmark| %>
@@ -66,6 +72,11 @@
 			  }
 			});
 		});
+
+    $(".active_new_bookmark_form").on("click", function () {
+      var listId = $(this).data('id');
+      $("#newBookmarkModal #bookmark_list_id").val(listId);
+    });
 
   });
 </script>

@@ -21,7 +21,7 @@ class BookmarksController < ApplicationController
     if bookmark.save
       redirect_to board_path(list.board_id)
     else
-      flash[:toastr] = { "error" => "Error: Not Bookmark Bookmark" }
+      flash[:toastr] = { "error" => "Error: Not Create Bookmark" }
       redirect_to board_path(list.board_id)
     end
   end
@@ -63,30 +63,25 @@ class BookmarksController < ApplicationController
   end
 
   def bookmark_params
-<<<<<<< HEAD
-  	params.require(:bookmark).permit(:title, :url, :description, :list_id, :tag_1, :tag_2, :tag_3, :rating)
-=======
-  	
   	if params[:action].eql? "create"
-  	  ext_tag(params[:bookmark][:url]).permit! 
+  	  ext_tag(params[:bookmark][:url]).permit!
   	else # when Edit
-  	  params.require(:bookmark).permit(:title, :url, :description, :list_id, :tag_1, :tag_2, :tag_3)
+  	  params.require(:bookmark).permit(:title, :url, :description, :list_id, :tag_1, :tag_2, :tag_3, :rating)
   	end
-  	
->>>>>>> c80cd91f712a56cd861818132056b26585f19d93
+
   end
 
   def ext_tag(url)
 
     iskorean = false
-   
+
     # If there is no http://
     unless url[/\Ahttp:\/\//] || url[/\Ahttps:\/\//]
       url = "http://#{url}"
     end
-    
+# p url
     value = check_url(url) # return "body name","tag name", "Mobile Mode"
-    
+
     title_name = value[0]
     body_name = value[1]
     tag_name = value[2]
@@ -101,7 +96,7 @@ class BookmarksController < ApplicationController
     # #crawling
     response = HTTParty.get(url)
     doc = Nokogiri::HTML(response.body)
-    
+
     # remove
     doc.css('script').remove
     doc.xpath("//@*[starts-with(name(),'on')]").remove
@@ -109,10 +104,10 @@ class BookmarksController < ApplicationController
     title = doc.css(title_name).text
     content = doc.css(body_name).text
     tag = doc.css(tag_name).text
-
+p content, title, tag
     # Checking Korean
     iskorean = true if content.match(/[가-힣]+/)
-   
+
     content = content.gsub("  ","")
     content = content.gsub("\n","")
 
@@ -127,33 +122,33 @@ class BookmarksController < ApplicationController
       content = all_text
     end
 
-    tag = Array.new
+    # p all_text
+    # tag = Array.new
+    tag = Hash.new
 
     # twitter KoNLP / TF-IDF model
 
     tag = iskorean ? kor_tag(content,title) : en_tag(content)
 
-    params[:bookmark][:tag_1] = tag[0]
-    params[:bookmark][:tag_2] = tag[1]
-    params[:bookmark][:tag_3] = tag[2]
-    
+    params[:bookmark][:tag_1] = tag.keys[0]
+    params[:bookmark][:tag_2] = tag.keys[1]
+    params[:bookmark][:tag_3] = tag.keys[2]
+    params[:bookmark][:title] = title
     return params[:bookmark]
-   
-  end
-  
-  # =============== English NLP ===========================================================
-  def en_tag(content)  
-    content = content.gsub(/[#=><]+/,"")
-    aticle = OTS.parse(content)
-    tag = Array.new
 
-    # top keyword 3
-    aticle.topics[0..2].each do |t|
-      tag << t
+  end
+
+  # =============== English NLP ===========================================================
+  def en_tag(content)
+    content = content.gsub(/[#=><]+/,"")
+    keywords = TextRank.extract_keywords(content)
+    tag = Hash.new(0)
+    keywords.keys.each do |k|
+      tag.store(k, keywords[k])
     end
     return tag
   end
-  
+
 # =============== Korean NLP ============================================================
 #     Warning It need to JAVA Install
 # ---------------------------------------------------------------------------------------
@@ -168,7 +163,7 @@ class BookmarksController < ApplicationController
     all_text.each do |s|
       twitter << processor.stem(s)
     end
-    
+
     # p twitter
     # p tag
     # p '======================'
@@ -197,70 +192,89 @@ class BookmarksController < ApplicationController
         end
       end
     end
+    stop_words = ["수", "있는", "가", "는", "을", "를", "하다", "이다", "할수있는", "하는", "하고", "있다", "박", "사용", "그리고", "그래서", "또는", "또한", "하지만", "등", "가지"]
+    word.except!(*stop_words)
     word = word.sort_by {|k, v| v}.reverse.to_h
-   
-    tag = Array.new
-    
-    tag << tf_idf(all_text, title)[-1][0]
-    tag << word.keys[0]
-    tag << word.keys[1]
-    
+    # p word
+
+    tag = Hash.new
+    # tag = Array.new
+
+    # word count를 기준으로 word count에서 tf-idf가 있는 단어는 꼭 뽑아오고
+    # 그 외에는 word count를 가져오는 형식.
+    # tf = tf_idf(all_text, title).rev
+    tf_idf(all_text, title)[0..3].each do |i|
+      word.keys[0..3].each do |j|
+        if i[0] == j
+          tag.store(i[0], i[1])
+        else
+          tag.store(i[0], i[1])
+          tag.store(j, word[j])
+        end
+      end
+    end
+
+
     return tag
   end
-  
+
   def tf_idf(all_text, title)
     idf = Array.new
+    stop_words = ["수", "있는", "가", "는", "을", "를", "하다", "이다", "할수있는", "하는", "하고", "있다", "박", "사용", "그리고", "그래서", "또는", "또한", "하지만"]
     all_text.each do |at|
       # puts at
-      idf << TfIdfSimilarity::Document.new(at)
-      # puts idf
+      text = at
+      tokens = UnicodeUtils.each_word(text).to_a - stop_words
+      term_counts = Hash.new(0)
+      size = 0
+      tokens.each do |token|
+        unless token[/\A\d+\z/]
+          term_counts[token.gsub(/\p{Punct}/, '')] += 1
+          size += 1
+        end
+      end
+      idf << TfIdfSimilarity::Document.new(text, :term_counts => term_counts, :size => size)
     end
     idf << TfIdfSimilarity::Document.new(title)
-  
+
     model = TfIdfSimilarity::TfIdfModel.new(idf, :library => :narray)
-  
+
     tfidf_by_term = {}
-    # idf[7].terms.each do |tff|
-    #   tfidf_by_term[tff] = model.tfidf(idf[7], tff)
-    # end
-    # idf.each do |i|
-    #   i.terms.each do |t|
-    #     tfidf_by_term[t] = model.tfidf(i, t)
-    #   end
-    # end
     idf[-1].terms.each do |term|
       tfidf_by_term[term] = model.tfidf(idf[-1], term)
     end
-    tf = tfidf_by_term.sort_by{|_,tfidf| -tfidf}
+    tf = tfidf_by_term.sort_by{|_,tfidf| -tfidf}.reverse
+
+    return tf
   end
-  
+
   def check_url(url)
-      #div_775
-      crawl_hash= {
-        "cafe.naver"    => ["h2.tit","#ct",nil,true],
-        "blog.naver"    => ["h3.se_textarea",".__se_component_area",".post_tag",true],
-        "cafe.daum"     => ["h3.tit_subject","#daumWrap",nil,true],
-        "blog.daum"     => ["h3.tit_view","#article","#tagListLayer_11777182",true],
-        "stackoverflow" => ["title","#mainbar",nil,false],
-        "github"        => ["title","#readme","body",false],
-        "brunch"        => ["title",".wrap_view_article",nil,false],
-        "tistory"       => [".titleWrap","#body > div.article > div > div", ".tag_label", false]
-      }
+    #div_775
+    crawl_hash= {
+      "cafe.naver"    => ["h2.tit","#ct",nil,true],
+      "blog.naver"    => ["h3.se_textarea",".__se_component_area",".post_tag",true],
+      "cafe.daum"     => ["h3.tit_subject","#daumWrap",nil,true],
+      "blog.daum"     => ["h3.tit_view","#article","#tagListLayer_11777182",true],
+      "stackoverflow" => ["title","#mainbar",nil,false],
+      "github"        => ["title","#readme","body",false],
+      "brunch"        => ["title",".wrap_view_article",nil,false],
+      "tistory"       => [".titleWrap","#body > div.article > div > div", ".tag_label", false]
+    }
 
-      def_val = ["title","body",nil,false] # crawl_hash에 지정되어 있지 않은 도메인의 url
+    def_val = ["title","body",nil,false] # crawl_hash에 지정되어 있지 않은 도메인의 url
 
-      # "body name","tag name", "Mobile Mode"
-      crawl_hash.each do |key, val|
-        # p val[1]
-        # p val[2]
-        unless url[key].nil?
-          val[-1] = false unless url["/m."].nil?
-          #key가 crawo_hash에 있는 경우, key에 해당하는 val값이 return
-          # p val
-          return val
-        end
+    # "body name","tag name", "Mobile Mode"
+    crawl_hash.each do |key, val|
+      # p val[1]
+      # p val[2]
+      unless url[key].nil?
+        val[-1] = false unless url["/m."].nil?
+        #key가 crawo_hash에 있는 경우, key에 해당하는 val값이 return
+        # p val
+        return val
       end
-
-      return def_val
     end
+
+    return def_val
+  end
 end

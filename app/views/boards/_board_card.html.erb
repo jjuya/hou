@@ -1,0 +1,16 @@
+<div class="col-lg-3 col-md-4 col-sm-6">
+  <div class="thumbnail">
+    <div class="caption">
+
+      <ul class="list-inline categories nomargin text-right size-11">
+        <li><%= link_to "<i class='fa fa-close'></i>".html_safe, board_path(board), method: :delete, class: "text-danger", data: {confirm: "#{board.title}을 삭제합니다."} %></li>
+      </ul>
+
+      <h4 class="nomargin text_hide">
+        <%= link_to board.title, board_path(board) %>
+      </h4>
+
+      <small class="margin-bottom-10 block text-right"> <%= board.created_at %> </small>
+    </div>
+  </div>
+</div>

@@ -1,44 +1,42 @@
 <section class="page-header page-header-xs">
-  <div id="board_title_div" class="pl-15 pr-15">
-    <div class="row">
-      <div class="col-lg-10 col-mg-8 col-sm-6 col-xs-6">
-        <h4 id="board_title">
-          <%= @board.title %>
-        </h4>
-      </div>
+  <div class="container">
+    <div id="board_title_div" class="pl-15 pr-15">
+      <div class="row">
+        <div class="col-lg-10 col-mg-8 col-sm-6 col-xs-6">
+          <h4 id="board_title">
+            <%= @board.title %>
+          </h4>
+        </div>
 
-      <div class="col-lg-1 col-mg-2 col-sm-3 col-xs-3">
-        <button id="active_new_list_form" class="btn btn-info btn-block">List <i class='fa fa-plus'></i></button>
-        <button id="deactive_new_list_form" class="btn btn-info btn-block">Form <i class='fa fa-minus'></i></button>
-      </div>
-
-      <div class="col-lg-1 col-mg-2 col-sm-3 col-xs-3">
-        <button id="active_new_bookmark_form" class="btn btn-info btn-block" data-toggle="modal" data-target="#newBookmarkModal">Bookmark <i class='fa fa-plus'></i></button>
+        <div class="col-lg-1 col-mg-2 col-sm-3 col-xs-3 text-right">
+          <button id="active_new_list_form" class="btn btn-info btn-block">List <i class='fa fa-plus'></i></button>
+          <button id="deactive_new_list_form" class="btn btn-info btn-block">Form <i class='fa fa-minus'></i></button>
+        </div>
       </div>
     </div>
+
+    <!-- board title edit form -->
+    <%= form_for @board, html: {class: "row pl-15 pr-15"}, remote: true do |f| %>
+      <div class="col-lg-5 col-mg-5 col-sm-10 col-xs-12">
+        <%= f.text_field :title, id: "editBoardTitle", class: "form-control", value: @board.title %>
+      </div>
+      <div class="col-lg-1 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
+        <%= f.submit "수정", class: "btn btn-primary btn-block"%>
+      </div>
+    <% end %>
+
+    <!-- list create form -->
+    <form id="new_list" class="row pl-15 pr-15">
+      <div class="col-lg-5 col-mg-5 col-sm-10 col-xs-12">
+        <input type="text" id="new_list_title" class="form-control" placeholder="List 이름을 입력해 주세요"/>
+        <input type="hidden" id="board_id"  value="<%= @board.id %>"/>
+      </div>
+
+      <div class="col-lg-1 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
+        <input type="submit" id="create_button" class="btn btn-primary btn-block" value="만들기"/>
+      </div>
+    </form>
   </div>
-
-  <!-- board title edit form -->
-  <%= form_for @board, html: {class: "row pl-15 pr-15"}, remote: true do |f| %>
-    <div class="col-lg-5 col-mg-5 col-sm-10 col-xs-12">
-      <%= f.text_field :title, id: "editBoardTitle", class: "form-control", value: @board.title %>
-    </div>
-    <div class="col-lg-1 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
-      <%= f.submit "수정", class: "btn btn-primary btn-block"%>
-    </div>
-  <% end %>
-
-  <!-- list create form -->
-  <form id="new_list" class="row pl-15 pr-15">
-    <div class="col-lg-5 col-mg-5 col-sm-10 col-xs-12">
-      <input type="text" id="new_list_title" class="form-control" placeholder="List 이름을 입력해 주세요"/>
-      <input type="hidden" id="board_id"  value="<%= @board.id %>"/>
-    </div>
-
-    <div class="col-lg-1 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
-      <input type="submit" id="create_button" class="btn btn-primary btn-block" value="만들기"/>
-    </div>
-  </form>
 </section>
 
 <!-- create bookmark-->
@@ -103,35 +101,9 @@
 						title:$("#new_list_title").val(),
 						board_id:$("#board_id").val()
 					}
-				},
-				success: function(result){
-			         render_createList(result)
-			  }
+				}
 			});
 		});
 
   });
-
-  function render_createList(data){
-    var activeList = $('#active_new_list_form');
-    var deactiveList = $('#deactive_new_list_form');
-		var newListForm = $('#new_list');
-
-		console.log(222);
-
-		var new_list = "";
-
-    new_list += "<div class='bookmark_list'>";
-    new_list += "  <h3 id='list_" + data.id + "' class='list_title'>";
-    new_list += data.title;
-    new_list += "  </h3>";
-    new_list += "</div>";
-
-		$('#board_show').append(new_list);
-
-		$('#new_list_title').val("");
-    activeList.show();
-    activeList.hide();
-		newListForm.hide();
-	}
 </script>

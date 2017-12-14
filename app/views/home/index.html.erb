@@ -17,17 +17,6 @@
 			</div>
 		</form>
 
-		<!-- <%#= form_for @board, html: {class: "row"}, remote: true do |f| %>
-			<div class="col-lg-6 col-mg-6 col-sm-9 pl-15 pr-15">
-				<%#= f.text_field :title, class: "form-control", placeholder: "Board 이름을 입력해 주세요" %>
-				<%#= f.hidden_field :user_id, value: current_user.id %>
-			</div>
-
-			<div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
-				<%#= f.submit "만들기", class: "btn btn-primary"%>
-			</div>
-    <%# end %> -->
-
 	</div>
 </section>
 
@@ -56,20 +45,7 @@
 
 		<div id="basic_boards" class="row">
 			<% @boards.each do |board| %>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="thumbnail">
-						<div class="caption">
-							<h4 class="nomargin text_hide">	<%= link_to board.title, board_path(board) %>	</h4>
-
-							<ul class="list-inline categories nomargin text-right size-11">
-								<li><%= link_to "<i class='fa fa-edit'></i>".html_safe, edit_board_path(board), class: "text-info" %></li>
-								<li><%= link_to "<i class='fa fa-close'></i>".html_safe, board_path(board), method: :delete, class: "text-danger", data: {confirm: "#{board.title}을 삭제합니다."} %></li>
-							</ul>
-
-							<small class="margin-bottom-10 block text-right"> <%= board.created_at %> </small>
-						</div>
-					</div>
-				</div>
+				<%= render partial: "boards/board_card", locals: { board: board } %>
 			<% end %>
 		</div>
 
@@ -124,12 +100,11 @@
 		new_board += "<div class='col-lg-3 col-md-4 col-sm-6'>";
 		new_board += "  <div class='thumbnail'>";
 		new_board += "    <div class='caption'>";
-		new_board += "      <h4 class='nomargin board_title'><a href='/boards/" + data.id + "'>" + data.title + "</a></h4>";
 		new_board += "			<ul class='list-inline categories nomargin text-right size-11'>";
-		new_board += "				<li><a class='text-info' href='/boards/" + data.id + "/edit'><i class='fa fa-edit'></i></a></li>";
 		new_board += "				<li><a class='text-danger' data-confirm='"+ data.title +"을 삭제합니다.' rel='nofollow' data-method='delete' href='/boards/" + data.id + "'><i class='fa fa-close'></i></a></li>";
 		new_board += "			</ul>";
-		new_board += "      <small class='margin-bottom-20 block text-right'>"+ data.created_at +"</small>";
+		new_board += "      <h4 class='nomargin board_title'><a href='/boards/" + data.id + "'>" + data.title + "</a></h4>";
+		new_board += "      <small class='margin-bottom-10 block text-right'>"+ data.created_at +"</small>";
 		new_board += "		</div>";
 		new_board += "	</div>";
 		new_board += "</div>";
