@@ -78,5 +78,17 @@
       $("#newBookmarkModal #bookmark_list_id").val(listId);
     });
 
+    // form 없애기
+    $(document).mouseup(function (e) {
+
+      var listTitle = $("#list_title_div_<%=list.id%>");
+      var editListForm = $("#edit_list_<%=list.id%>");
+
+      if (editListForm.has(e.target).length === 0){
+        listTitle.show();
+        editListForm.hide();
+      }
+    });
+
   });
 </script>

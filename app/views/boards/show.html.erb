@@ -1,6 +1,6 @@
 <section class="page-header page-header-xs">
   <div class="container">
-    <div id="board_title_div" class="pl-15 pr-15">
+    <div id="board_title_div">
       <div class="row">
         <div class="col-lg-10 col-mg-8 col-sm-6 col-xs-6">
           <h4 id="board_title">
@@ -9,33 +9,37 @@
         </div>
 
         <div class="col-lg-1 col-mg-2 col-sm-3 col-xs-3 text-right">
-          <button id="active_new_list_form" class="btn btn-info btn-block">List <i class='fa fa-plus'></i></button>
-          <button id="deactive_new_list_form" class="btn btn-info btn-block">Form <i class='fa fa-minus'></i></button>
+          <button id="active_new_list_form" class="btn btn-info"><i class='fa fa-plus'></i></button>
+          <button id="deactive_new_list_form" class="btn btn-info"><i class='fa fa-minus'></i></button>
         </div>
       </div>
     </div>
 
-    <!-- board title edit form -->
-    <%= form_for @board, html: {class: "row pl-15 pr-15"}, remote: true do |f| %>
-      <div class="col-lg-5 col-mg-5 col-sm-10 col-xs-12">
-        <%= f.text_field :title, id: "editBoardTitle", class: "form-control", value: @board.title %>
-      </div>
-      <div class="col-lg-1 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
-        <%= f.submit "수정", class: "btn btn-primary btn-block"%>
-      </div>
-    <% end %>
+    <div class="col-lg-offset-2 col-lg-8 col-mg-12 col-sm-12 col-xs-12">
+      <!-- board title edit form -->
+      <%= form_for @board, html: {class: "row"}, remote: true do |f| %>
+        <div class="col-lg-10 col-mg-10 col-sm-10 col-xs-12">
+          <%= f.text_field :title, id: "editBoardTitle", class: "form-control", value: @board.title %>
+        </div>
+        <div class="col-lg-2 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
+          <%= f.submit "수정", class: "btn btn-primary btn-block"%>
+        </div>
+      <% end %>
+    </div>
 
-    <!-- list create form -->
-    <form id="new_list" class="row pl-15 pr-15">
-      <div class="col-lg-5 col-mg-5 col-sm-10 col-xs-12">
-        <input type="text" id="new_list_title" class="form-control" placeholder="List 이름을 입력해 주세요"/>
-        <input type="hidden" id="board_id"  value="<%= @board.id %>"/>
-      </div>
+    <div class="col-lg-offset-2 col-lg-8 col-mg-12 col-sm-12 col-xs-12">
+      <!-- list create form -->
+      <form id="new_list" class="row pl-15 pr-15">
+        <div class="col-lg-10 col-mg-10 col-sm-10 col-xs-12">
+          <input type="text" id="new_list_title" class="form-control" placeholder="List 이름을 입력해 주세요"/>
+          <input type="hidden" id="board_id"  value="<%= @board.id %>"/>
+        </div>
 
-      <div class="col-lg-1 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
-        <input type="submit" id="create_button" class="btn btn-primary btn-block" value="만들기"/>
-      </div>
-    </form>
+        <div class="col-lg-2 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
+          <input type="submit" id="create_button" class="btn btn-primary btn-block" value="만들기"/>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -104,6 +108,18 @@
 				}
 			});
 		});
+
+    // form 없애기
+    $(document).mouseup(function (e) {
+
+      var boardTitle = $('#board_title_div');
+      var editBoardForm = $('#edit_board_' + <%= @board.id %>);
+
+      if (editBoardForm.has(e.target).length === 0){
+        boardTitle.show();
+        editBoardForm.hide();
+      }
+    });
 
   });
 </script>

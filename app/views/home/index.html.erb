@@ -6,16 +6,18 @@
 			</div>
 		</div>
 
-		<form id="new_board" class="row">
-			<div class="col-lg-6 col-mg-6 col-sm-9 pl-15 pr-15">
-				<input type="text" id="new_board_title" class="form-control" placeholder="Board 이름을 입력해 주세요"/>
-				<input type="hidden" id="user_id"  value="<%=current_user.id%>"/>
-			</div>
+		<div class="col-lg-offset-2 col-lg-8 col-mg-12 col-sm-12 col-xs-12">
+			<form id="new_board" class="row">
+				<div class="col-lg-10 col-mg-10 col-sm-10 col-xs-12">
+					<input type="text" id="new_board_title" class="form-control" placeholder="Board 이름을 입력해 주세요"/>
+					<input type="hidden" id="user_id"  value="<%=current_user.id%>"/>
+				</div>
 
-			<div class="col-lg-3 col-mg-3 col-sm-3 pl-15 pr-15 button-group">
-				<input type="submit" id="create_button" class="btn btn-primary" value="만들기"/>
-			</div>
-		</form>
+				<div class="col-lg-2 col-mg-1 col-sm-2 col-xs-12 button-group text-right">
+					<input type="submit" id="create_button" class="btn btn-primary" value="만들기"/>
+				</div>
+			</form>
+		</div>
 
 	</div>
 </section>
@@ -25,17 +27,6 @@
 <section id="star">
 	<div class="container">
 		<h3 class="lead"><i class="fa fa-star-o"></i> Starred Boards </h3>
-
-		<!-- <% @boards.each do |board| %>
-			<div class="col-lg-3 col-md-4 col-sm-6">
-				<div class="thumbnail">
-					<div class="caption">
-						<h4 class="nomargin board_title"> <%= link_to board.title, board_path(board) %> </h4>
-						<small class="margin-bottom-20 block"><i class="fa fa-clock-o"></i> <%= board.created_at.to_s(:short) %> </small>
-					</div>
-				</div>
-			</div>
-		<% end %> -->
 	</div>
 </section>
 
@@ -86,6 +77,19 @@
 			  }
 			});
 		});
+
+		// form 없애기
+    $(document).mouseup(function (e) {
+
+			var active = $('#active_new_board_form');
+			var newBoardForm = $('#new_board');
+
+
+      if (newBoardForm.has(e.target).length === 0){
+				active.show();
+				newBoardForm.hide();
+      }
+    });
 
 	});
 
