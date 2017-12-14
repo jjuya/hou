@@ -40,14 +40,14 @@
 
 							<div class="quick-cart-wrapper">
 								<div class="pl-15 pr-15 pt-15 pb-15">
-									로그아웃 할건데엥에ㅔ에ㅔ엥
+									<span class="pull-left">You have <strong><%= current_user.boards.length%> BOARDS</strong></span>
 								</div>
 							</div>
 
 							<!-- quick cart footer -->
-							<div class="quick-cart-footer clearfix">
-								<%= link_to '로그아웃', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs pull-right", data: {confirm: "#{current_user.email}로그아웃"} %>
-								<span class="pull-left"><%= current_user.boards.length%> <strong> BOARDS</strong></span>
+							<div class="quick-cart-footer clearfix ">
+								<%#= link_to 'EDIT', edit_user_registration_path,  class: "btn btn-info btn-xs" %>
+								<%= link_to 'LOG OUT', destroy_user_session_path, method: :delete, class: "btn btn-danger btn-xs", data: {confirm: "#{current_user.email} 로그아웃"} %>
 							</div>
 						<% end %>
 					</div>
@@ -58,8 +58,8 @@
 			<!-- /BUTTONS -->
 
 			<!-- Logo -->
-			<a class="logo pull-center" href="index.html">
-				<!-- <img src="assets/images/_smarty/logo_dark.png" alt=""> -->
+			<a class="logo margin-top-6" href="<%= root_path %>">
+				<img src="<%= asset_path 'logo.png' %>" alt="">
 			</a>
 
 			<!--
@@ -68,7 +68,7 @@
 				AVAILABLE CLASSES:
 				submenu-dark = dark sub menu
 			-->
-			<div class="navbar-collapse pull-left nav-main-collapse collapse">
+			<div class="navbar-collapse nav-main-collapse collapse">
 				<nav class="nav-main">
 
 					<!--

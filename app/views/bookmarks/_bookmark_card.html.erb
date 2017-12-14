@@ -1,6 +1,10 @@
 <div id="bookmark_<%= bookmark.id %>" class="panel panel-default" data-toggle="modal" data-target="#show_bookmark_<%= bookmark.id %>">
 	<div class="panel-body board_title">
-    <label class="size-13 noborder"><%= bookmark.title %></label>
-    <span class="size-11 text-muted"><%= bookmark.created_at.to_s %></span>
+    <label class="size-13 text-primary noborder"><%= bookmark.title %></label>
+    <span class="size-13 text-muted">
+    	#<%= bookmark.tag_1%>
+			#<%= bookmark.tag_2%>
+			#<%= bookmark.tag_3%>
+    </span>
 	</div>
 </div>
